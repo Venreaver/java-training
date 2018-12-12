@@ -40,12 +40,19 @@ public class MyThreadPool {
         @Override
         public void run() {
             while (!isShutDowned) {
-                try {
-                    currentTask = tasks.take();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                currentTask = tasks.poll();
+                if (currentTask != null) {
+                    currentTask.run();
+                } else {
+                    try {
+                        sleep(300);
+                        if (tasks.peek() == null) {
+                            break;
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                currentTask.run();
             }
         }
 
