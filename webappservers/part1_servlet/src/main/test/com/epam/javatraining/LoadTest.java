@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 
 public class LoadTest {
     private static final String HELLO_URL = "http://localhost:8080/hello";
-    private static final int THREADS_COUNT = 250;
+    private static final int THREADS_COUNT = 10;
 
     @Test
     public void loadTest() {
@@ -24,7 +24,7 @@ public class LoadTest {
                     URL url = new URL(HELLO_URL);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(10000);
                         return connection.getResponseCode();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
