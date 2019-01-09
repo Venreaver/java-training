@@ -12,14 +12,15 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
 public class DogControllerTest {
     @BeforeClass
-    public static final void setUp() {
-        RestAssured.baseURI = "http://localhost:8080/";
+    public static void setUp() {
+        RestAssured.baseURI = "http://localhost:8080";
     }
 
     //TODO
     @Test
     public void testGetAll() {
         given().accept(ContentType.JSON).when().get(DOG).then().assertThat()
-               .statusCode(HttpStatus.OK.value()).body("size()", greaterThanOrEqualTo(4));
+               .statusCode(HttpStatus.OK.value())
+               .contentType(ContentType.JSON).body("size()", greaterThanOrEqualTo(4));
     }
 }

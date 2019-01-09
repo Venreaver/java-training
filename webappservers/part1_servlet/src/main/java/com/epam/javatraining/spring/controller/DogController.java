@@ -2,6 +2,7 @@ package com.epam.javatraining.spring.controller;
 
 import com.epam.javatraining.spring.model.Dog;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +24,11 @@ public class DogController {
 
     @PostConstruct
     public void init() {
-        Dog first = new Dog(UUID.randomUUID().toString(), "First", 3);
-        Dog second = new Dog(UUID.randomUUID().toString(), "Second", 4);
-        Dog third = new Dog(UUID.randomUUID().toString(), "Third", 8);
-        Dog fourth = new Dog(UUID.randomUUID().toString(), "Fourth", 5);
-        Dog fifth = new Dog(UUID.randomUUID().toString(), "Fifth", 1);
+        Dog first = new Dog("1", "First", 3);
+        Dog second = new Dog("2", "Second", 4);
+        Dog third = new Dog("3", "Third", 8);
+        Dog fourth = new Dog("4", "Fourth", 5);
+        Dog fifth = new Dog("5", "Fifth", 1);
         DOGS.put(first.getId(), first);
         DOGS.put(second.getId(), second);
         DOGS.put(third.getId(), third);
@@ -59,6 +60,7 @@ public class DogController {
         return dog;
     }
 
+    @DeleteMapping(value = DOG_ID)
     ResponseEntity delete(@PathVariable String id) {
         DOGS.remove(id);
         return ResponseEntity.noContent().build();
