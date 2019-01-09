@@ -21,6 +21,6 @@ public class DogControllerTest {
     public void testGetAll() {
         given().accept(ContentType.JSON).when().get(DOG).then().assertThat()
                .statusCode(HttpStatus.OK.value())
-               .contentType(ContentType.JSON).body("size()", greaterThanOrEqualTo(4));
+               .contentType(ContentType.JSON).body("size()", greaterThanOrEqualTo(5));
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
@@ -22,7 +21,6 @@ public class DogController {
     public static final String DOG = "/dog";
     public static final String DOG_ID = DOG + "/{id}";
 
-    @PostConstruct
     public void init() {
         Dog first = new Dog("1", "First", 3);
         Dog second = new Dog("2", "Second", 4);
