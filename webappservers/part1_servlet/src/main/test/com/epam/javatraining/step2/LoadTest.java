@@ -1,4 +1,4 @@
-package com.epam.javatraining;
+package com.epam.javatraining.step2;
 
 import org.testng.annotations.Test;
 
