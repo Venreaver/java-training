@@ -24,15 +24,12 @@ public class LoadTest {
                     URL url = new URL(HELLO_URL);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     try {
-                        Thread.sleep(10000);
                         return connection.getResponseCode();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    } finally {
+                        if (connection != null) {
+                            connection.disconnect();
+                        }
                     }
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
-                    return null;
                 })
         ).collect(Collectors.toList());
         tasks.forEach(task -> {

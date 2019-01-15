@@ -13,39 +13,39 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <!--<servlet>-->
-        <!--<servlet-name>HelloServlet</servlet-name>-->
-        <!--<servlet-class>com.epam.javatraining.servlets.HelloServlet</servlet-class>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>HelloServlet</servlet-name>
+        <servlet-class>com.epam.javatraining.servlets.HelloServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>HelloServlet</servlet-name>-->
-        <!--<url-pattern>/hello</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>HelloServlet</servlet-name>
+        <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
 
     <!--FILTERS & MAPPINGS-->
-    <!--<filter>-->
-        <!--<filter-name>FirstFilter</filter-name>-->
-        <!--<filter-class>com.epam.javatraining.filters.FirstFilter</filter-class>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>FirstFilter</filter-name>-->
-        <!--<servlet-name>HelloServlet</servlet-name>-->
-    <!--</filter-mapping>-->
-    <!--<filter>-->
-        <!--<filter-name>SecondFilter</filter-name>-->
-        <!--<filter-class>com.epam.javatraining.filters.SecondFilter</filter-class>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>SecondFilter</filter-name>-->
-        <!--<servlet-name>HelloServlet</servlet-name>-->
-    <!--</filter-mapping>-->
+    <filter>
+        <filter-name>FirstFilter</filter-name>
+        <filter-class>com.epam.javatraining.filters.FirstFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FirstFilter</filter-name>
+        <servlet-name>HelloServlet</servlet-name>
+    </filter-mapping>
+    <filter>
+        <filter-name>SecondFilter</filter-name>
+        <filter-class>com.epam.javatraining.filters.SecondFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecondFilter</filter-name>
+        <servlet-name>HelloServlet</servlet-name>
+    </filter-mapping>
 
     <!--LISTENERS-->
-    <!--<listener>-->
-        <!--<listener-class>com.epam.javatraining.listeners.HelloServletContextListener</listener-class>-->
-    <!--</listener>-->
+    <listener>
+        <listener-class>com.epam.javatraining.listeners.HelloServletContextListener</listener-class>
+    </listener>
 </web-app>
