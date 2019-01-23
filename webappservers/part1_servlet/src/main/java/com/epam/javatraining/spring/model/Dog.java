@@ -1,19 +1,24 @@
 package com.epam.javatraining.spring.model;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class Dog {
     private String id = UUID.randomUUID().toString();
     private String name;
-    private int age;
+    private LocalDate dateOfBirth;
+    private int height;
+    private int weight ;
 
     public Dog() {
     }
 
-    public Dog(String id, String name, int age) {
+    public Dog(String id, String name, LocalDate dateOfBirth, int height, int weight) {
         this.id = id;
         this.name = name;
-        this.age = age;
+        this.dateOfBirth = dateOfBirth;
+        this.height = height;
+        this.weight = weight;
     }
 
     public String getId() {
@@ -32,11 +37,27 @@ public class Dog {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 }
