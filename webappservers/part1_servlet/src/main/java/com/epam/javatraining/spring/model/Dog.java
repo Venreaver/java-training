@@ -16,15 +16,15 @@ public class Dog {
     private LocalDate dateOfBirth;
     @NotNull
     @Positive
-    private int height;
+    private Integer height;
     @NotNull
     @Positive
-    private int weight;
+    private Integer weight;
 
     public Dog() {
     }
 
-    public Dog(String id, String name, LocalDate dateOfBirth, int height, int weight) {
+    public Dog(String id, String name, LocalDate dateOfBirth, Integer height, Integer weight) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -56,19 +56,19 @@ public class Dog {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public int getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 
-    public int getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
@@ -77,8 +77,8 @@ public class Dog {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Dog dog = (Dog) o;
-        return height == dog.height &&
-                weight == dog.weight &&
+        return height.equals(dog.height) &&
+                weight.equals(dog.weight) &&
                 id.equals(dog.id) &&
                 name.equals(dog.name) &&
                 Objects.equals(dateOfBirth, dog.dateOfBirth);
