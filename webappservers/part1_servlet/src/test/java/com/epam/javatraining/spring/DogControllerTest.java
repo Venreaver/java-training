@@ -31,7 +31,6 @@ public class DogControllerTest {
         RestAssured.baseURI = "http://localhost:8080";
     }
 
-    //TODO
     @Test
     public void testGetAll() {
         given().when().get(DOG)

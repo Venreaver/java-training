@@ -1,13 +1,24 @@
 package com.epam.javatraining.spring.model;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class Dog {
     private String id;
+    @NotNull
+    @Size(min = 1, max = 100)
     private String name;
+    @Past
     private LocalDate dateOfBirth;
+    @NotNull
+    @Positive
     private int height;
+    @NotNull
+    @Positive
     private int weight;
 
     public Dog() {
