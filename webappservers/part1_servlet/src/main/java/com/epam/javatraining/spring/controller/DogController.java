@@ -2,7 +2,6 @@ package com.epam.javatraining.spring.controller;
 
 import com.epam.javatraining.spring.exception.DogNotFoundException;
 import com.epam.javatraining.spring.model.Dog;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

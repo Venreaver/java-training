@@ -10,4 +10,6 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
     <bean class="com.epam.javatraining.spring.controller.DogController" init-method="init"/>
+    <bean class="com.epam.javatraining.spring.controller.ExceptionHandlerController"/>
+
 </beans>

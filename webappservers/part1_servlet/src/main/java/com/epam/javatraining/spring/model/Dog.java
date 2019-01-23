@@ -1,14 +1,14 @@
 package com.epam.javatraining.spring.model;
 
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.Objects;
 
 public class Dog {
-    private String id = UUID.randomUUID().toString();
+    private String id;
     private String name;
     private LocalDate dateOfBirth;
     private int height;
-    private int weight ;
+    private int weight;
 
     public Dog() {
     }
@@ -59,5 +59,22 @@ public class Dog {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dog dog = (Dog) o;
+        return height == dog.height &&
+                weight == dog.weight &&
+                id.equals(dog.id) &&
+                name.equals(dog.name) &&
+                Objects.equals(dateOfBirth, dog.dateOfBirth);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, dateOfBirth, height, weight);
     }
 }
