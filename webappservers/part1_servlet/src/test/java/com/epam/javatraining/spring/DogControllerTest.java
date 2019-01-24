@@ -17,6 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -102,5 +103,21 @@ public class DogControllerTest {
     public void testWrongMediaTypes() {
         given().body(testDog).accept(JSON).contentType(TEXT).when().post(DOG).then().statusCode(UNSUPPORTED_MEDIA_TYPE.value());
         given().body(testDog).accept(TEXT).contentType(JSON).when().post(DOG).then().statusCode(NOT_ACCEPTABLE.value());
+    }
+
+    @Test
+    public void testCreateInvalidDog() {
+        Dog dog = new Dog(null, "", LocalDate.of(2016, 1, 10), 30, 6);
+        given().body(dog).accept(JSON).contentType(JSON)
+               .when().post(DOG)
+               .then().assertThat().statusCode(BAD_REQUEST.value()).extract().body().as(ErrorResponse.class);
+    }
+
+    @Test
+    public void testUpdateInvalidDog() {
+        Dog dog = new Dog(null, "Second", LocalDate.now(), 30, 6);
+        given().body(dog).accept(JSON).contentType(JSON)
+               .when().put(DOG_ID, "2")
+               .then().assertThat().statusCode(BAD_REQUEST.value()).extract().body().as(ErrorResponse.class);
     }
 }

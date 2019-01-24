@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
@@ -52,14 +53,14 @@ public class DogController {
     }
 
     @PostMapping(value = DOG, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    Dog create(@RequestBody Dog dog) {
+    Dog create(@Valid @RequestBody Dog dog) {
         dog.setId(UUID.randomUUID().toString());
         DOGS.put(dog.getId(), dog);
         return dog;
     }
 
     @PutMapping(value = DOG_ID, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    Dog update(@RequestBody Dog dog, @PathVariable String id) {
+    Dog update(@Valid @RequestBody Dog dog, @PathVariable String id) {
         if (DOGS.containsKey(id)) {
             dog.setId(id);
             DOGS.put(id, dog);
