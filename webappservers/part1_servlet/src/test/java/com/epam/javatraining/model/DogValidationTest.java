@@ -3,6 +3,7 @@ package com.epam.javatraining.model;
 import com.epam.javatraining.spring.model.Dog;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.validation.ConstraintViolation;
@@ -24,9 +25,13 @@ public class DogValidationTest {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
+    @BeforeMethod
+    private void updateDog() {
+        dog = new Dog("1", "First", LocalDate.of(2016, 1, 10), 30, 6);
+    }
+
     @Test
     public void testDogNameIsTooShort() {
-        updateDog();
         String shortName = RandomStringUtils.randomAlphabetic(0);
         dog.setName(shortName);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
@@ -36,7 +41,6 @@ public class DogValidationTest {
 
     @Test
     public void testDogNameIsTooLong() {
-        updateDog();
         String longName = RandomStringUtils.randomAlphabetic(101);
         dog.setName(longName);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
@@ -46,7 +50,6 @@ public class DogValidationTest {
 
     @Test
     public void testDogNameIsNull() {
-        updateDog();
         dog.setName(null);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
         assertThat(constraintViolations, hasSize(1));
@@ -55,7 +58,6 @@ public class DogValidationTest {
 
     @Test
     public void testDogBirthDateIsToday() {
-        updateDog();
         dog.setDateOfBirth(LocalDate.now());
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
         assertThat(constraintViolations, hasSize(1));
@@ -64,7 +66,6 @@ public class DogValidationTest {
 
     @Test
     public void testDogBirthDateIsInTheFuture() {
-        updateDog();
         dog.setDateOfBirth(LocalDate.of(4019, 1, 10));
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
         assertThat(constraintViolations, hasSize(1));
@@ -73,7 +74,6 @@ public class DogValidationTest {
 
     @Test
     public void testDogHeightIsNegative() {
-        updateDog();
         dog.setHeight(-50);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
         assertThat(constraintViolations, hasSize(1));
@@ -82,7 +82,6 @@ public class DogValidationTest {
 
     @Test
     public void testDogHeightIsNull() {
-        updateDog();
         dog.setHeight(null);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
         assertThat(constraintViolations, hasSize(1));
@@ -91,7 +90,6 @@ public class DogValidationTest {
 
     @Test
     public void testDogWeightIsNegative() {
-        updateDog();
         dog.setHeight(-50);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
         assertThat(constraintViolations, hasSize(1));
@@ -100,14 +98,9 @@ public class DogValidationTest {
 
     @Test
     public void testDogWeightIsNull() {
-        updateDog();
         dog.setHeight(null);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
         assertThat(constraintViolations, hasSize(1));
         assertThat(constraintViolations.iterator().next().getMessage(), equalTo("must not be null"));
-    }
-
-    private void updateDog() {
-        dog = new Dog("1", "First", LocalDate.of(2016, 1, 10), 30, 6);
     }
 }
