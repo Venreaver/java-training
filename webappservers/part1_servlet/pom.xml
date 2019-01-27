@@ -95,5 +95,16 @@
             would make the tests more realistic.-->
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.unitils</groupId>
+            <artifactId>unitils-core</artifactId>
+            <version>3.4.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

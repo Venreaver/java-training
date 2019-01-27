@@ -1,20 +1,14 @@
 package com.epam.javatraining.spring.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ErrorResponse {
     private String info;
-
-    public ErrorResponse() {
-    }
-
-    public ErrorResponse(String info) {
-        this.info = info;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
 }
