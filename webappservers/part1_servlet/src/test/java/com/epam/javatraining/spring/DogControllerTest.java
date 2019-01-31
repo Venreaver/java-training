@@ -9,8 +9,6 @@ import org.testng.annotations.Test;
 import java.time.LocalDate;
 
 import static com.epam.javatraining.model.DogValidationTest.generateDog;
-import static com.epam.javatraining.spring.controller.DogController.DOG;
-import static com.epam.javatraining.spring.controller.DogController.DOG_ID;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,19 +23,20 @@ import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEqua
 public class DogControllerTest {
     @BeforeClass
     public static void setUp() {
-        RestAssured.baseURI = "http://localhost:8080";
+        RestAssured.baseURI = "http://localhost:8080/dog/";
     }
 
     @Test
     public void givenWhenGetAllDogsThenCollectionWithSizeGreaterThanOrEqualTo5() {
-        given().when().get(DOG)
+        given().accept(JSON).contentType(JSON).when().get()
                .then().assertThat().statusCode(OK.value()).contentType(JSON).body("size()", greaterThanOrEqualTo(5));
     }
 
     @Test
     public void givenPostedDogWhenGetDogByPostedDogIdThenGotDogIsEqualsToPostedDog() {
         Dog postedDog = postDog(generateDog());
-        Dog dog = given().when().get(DOG_ID, postedDog.getId())
+        Dog dog = given().accept(JSON).contentType(JSON)
+                         .when().get(postedDog.getId())
                          .then().statusCode(OK.value()).contentType(JSON).extract().body().as(Dog.class);
         assertReflectionEquals(postedDog, dog);
     }
@@ -55,7 +54,7 @@ public class DogControllerTest {
         Dog postedDog = postDog(generateDog());
         Dog generatedDog = generateDog();
         Dog dog = given().body(generatedDog).accept(JSON).contentType(JSON)
-                         .when().put(DOG_ID, postedDog.getId())
+                         .when().put(postedDog.getId())
                          .then().statusCode(OK.value()).extract().body().as(Dog.class);
         generatedDog.setId(postedDog.getId());
         assertReflectionEquals(generatedDog, dog);
@@ -64,13 +63,14 @@ public class DogControllerTest {
     @Test
     public void givenPostedDogWhenDeleteDogByPostedDogIdThenHttpStatusIs204() {
         Dog postedDog = postDog(generateDog());
-        given().when().delete(DOG_ID, postedDog.getId()).then().statusCode(NO_CONTENT.value());
+        given().accept(JSON).contentType(JSON).when().delete(postedDog.getId()).then().statusCode(NO_CONTENT.value());
     }
 
     @Test
     public void givenGeneratedDogWhenGetNoExistingDogByGeneratedDogIdThenHttpStatusIs404() {
         Dog generatedDog = generateDog();
-        ErrorResponse response = given().when().get(DOG_ID, generatedDog.getId())
+        ErrorResponse response = given().accept(JSON).contentType(JSON)
+                                        .when().get(generatedDog.getId())
                                         .then().statusCode(NOT_FOUND.value()).contentType(JSON)
                                         .extract().body().as(ErrorResponse.class);
         assertThat(response.getInfo(), equalTo(String.format("Dog with id %s does not exist", generatedDog.getId())));
@@ -80,7 +80,7 @@ public class DogControllerTest {
     public void givenGeneratedDogWhenUpdateNoExistingDogByGeneratedDogIdThenHttpStatusIs404() {
         Dog generatedDog = generateDog();
         ErrorResponse response = given().body(generatedDog).accept(JSON).contentType(JSON)
-                                        .when().put(DOG_ID, generatedDog.getId())
+                                        .when().put(generatedDog.getId())
                                         .then().statusCode(NOT_FOUND.value()).extract().body().as(ErrorResponse.class);
         assertThat(response.getInfo(), equalTo(String.format("Dog with id %s does not exist", generatedDog.getId())));
     }
@@ -88,7 +88,8 @@ public class DogControllerTest {
     @Test
     public void givenGeneratedDogWhenDeleteNoExistingDogByGeneratedDogIdThenHttpStatusIs404() {
         Dog generatedDog = generateDog();
-        ErrorResponse response = given().when().delete(DOG_ID, generatedDog.getId())
+        ErrorResponse response = given().accept(JSON).contentType(JSON)
+                                        .when().delete(generatedDog.getId())
                                         .then().statusCode(NOT_FOUND.value())
                                         .extract().body().as(ErrorResponse.class);
         assertThat(response.getInfo(), equalTo(String.format("Dog with id %s does not exist", generatedDog.getId())));
@@ -99,7 +100,7 @@ public class DogControllerTest {
         Dog generatedDog = generateDog();
         generatedDog.setName("");
         given().body(generatedDog).accept(JSON).contentType(JSON)
-               .when().post(DOG)
+               .when().post()
                .then().assertThat().statusCode(BAD_REQUEST.value()).extract().body().as(ErrorResponse.class);
     }
 
@@ -108,13 +109,13 @@ public class DogControllerTest {
         Dog generatedDog = generateDog();
         generatedDog.setDateOfBirth(LocalDate.now());
         given().body(generatedDog).accept(JSON).contentType(JSON)
-               .when().put(DOG_ID, generatedDog.getId())
+               .when().put(generatedDog.getId())
                .then().assertThat().statusCode(BAD_REQUEST.value()).extract().body().as(ErrorResponse.class);
     }
 
     private Dog postDog(Dog dog) {
         return given().body(dog).accept(JSON).contentType(JSON)
-                      .when().post(DOG)
+                      .when().post()
                       .then().statusCode(OK.value()).extract().body().as(Dog.class);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -21,10 +22,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
+@RequestMapping(value = "/dog", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class DogController {
     private static Map<String, Dog> DOGS = new ConcurrentHashMap<>();
-    public static final String DOG = "/dog";
-    public static final String DOG_ID = DOG + "/{id}";
+    private static final String DOG_ID = "/{id}";
 
     public void init() {
         Dog first = new Dog("1", "First", LocalDate.of(2016, 1, 10), 30, 6);
@@ -39,7 +40,7 @@ public class DogController {
         DOGS.put(fifth.getId(), fifth);
     }
 
-    @GetMapping(value = DOG, produces = APPLICATION_JSON_VALUE)
+    @GetMapping
     Collection<Dog> get() {
         return DOGS.values();
     }
@@ -52,14 +53,14 @@ public class DogController {
         throw new DogNotFoundException(id);
     }
 
-    @PostMapping(value = DOG, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping
     Dog create(@Valid @RequestBody Dog dog) {
         dog.setId(UUID.randomUUID().toString());
         DOGS.put(dog.getId(), dog);
         return dog;
     }
 
-    @PutMapping(value = DOG_ID, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PutMapping(value = DOG_ID)
     Dog update(@Valid @RequestBody Dog dog, @PathVariable String id) {
         if (DOGS.containsKey(id)) {
             dog.setId(id);
@@ -69,7 +70,7 @@ public class DogController {
         throw new DogNotFoundException(id);
     }
 
-    @DeleteMapping(value = DOG_ID, produces = APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = DOG_ID)
     ResponseEntity delete(@PathVariable String id) {
         if (DOGS.containsKey(id)) {
             DOGS.remove(id);
