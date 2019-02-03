@@ -23,32 +23,32 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/dog", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class DogController {
     private static final String DOG_ID = "/{id}";
-    private final InMemoryDogDao inMemoryDogDao;
+    private final InMemoryDogDao dogDao;
 
     @GetMapping
     Collection<Dog> get() {
-        return inMemoryDogDao.getAll();
+        return dogDao.getAll();
     }
 
     @GetMapping(value = DOG_ID, produces = APPLICATION_JSON_VALUE)
     Dog get(@PathVariable String id) {
-        return inMemoryDogDao.get(id);
+        return dogDao.get(id);
     }
 
     @PostMapping
     Dog create(@Valid @RequestBody Dog dog) {
-        return inMemoryDogDao.create(dog);
+        return dogDao.create(dog);
     }
 
     @PutMapping(value = DOG_ID)
     Dog update(@Valid @RequestBody Dog dog, @PathVariable String id) {
         dog.setId(id);
-        return inMemoryDogDao.update(dog);
+        return dogDao.update(dog);
     }
 
     @DeleteMapping(value = DOG_ID)
     ResponseEntity delete(@PathVariable String id) {
-        inMemoryDogDao.delete(id);
+        dogDao.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
