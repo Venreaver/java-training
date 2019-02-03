@@ -27,13 +27,13 @@ public class DogControllerTest {
     }
 
     @Test
-    public void givenWhenGetAllDogsThenCollectionWithSizeGreaterThanOrEqualTo5() {
+    public void getList_results_intro_dogCollection() {
         given().accept(JSON).contentType(JSON).when().get()
                .then().statusCode(OK.value()).contentType(JSON).body("size()", greaterThanOrEqualTo(5));
     }
 
     @Test
-    public void givenPostedDogWhenGetDogByPostedDogIdThenGotDogIsEqualsToPostedDog() {
+    public void getDog_results_into_appropriateDog() {
         Dog postedDog = postDog(generateDog());
         Dog dog = given().accept(JSON).contentType(JSON)
                          .when().get(postedDog.getId())
@@ -42,7 +42,7 @@ public class DogControllerTest {
     }
 
     @Test
-    public void givenGeneratedDogWhenPostGeneratedDogThenPostedDogIsEqualsToGeneratedDog() {
+    public void postDog_results_into_appropriateDogCreated() {
         Dog generatedDog = generateDog();
         Dog dog = postDog(generatedDog);
         generatedDog.setId(dog.getId());
@@ -50,7 +50,7 @@ public class DogControllerTest {
     }
 
     @Test
-    public void givenPostedDogAndGeneratedDogWhenUpdatePostedDogByGeneratedDogThenUpdatedDogIsEqualsToGeneratedDogWithPostedDogId() {
+    public void updateDog_results_into_appropriateDogUpdated() {
         Dog postedDog = postDog(generateDog());
         Dog generatedDog = generateDog();
         Dog dog = given().body(generatedDog).accept(JSON).contentType(JSON)
@@ -61,13 +61,13 @@ public class DogControllerTest {
     }
 
     @Test
-    public void givenPostedDogWhenDeleteDogByPostedDogIdThenHttpStatusIs204() {
+    public void deleteDog_results_into_httpStatusIs204() {
         Dog postedDog = postDog(generateDog());
         given().accept(JSON).contentType(JSON).when().delete(postedDog.getId()).then().statusCode(NO_CONTENT.value());
     }
 
     @Test
-    public void givenGeneratedDogWhenGetNoExistingDogByGeneratedDogIdThenHttpStatusIs404() {
+    public void getNotExistingDog_results_into_httpStatusIs404() {
         Dog generatedDog = generateDog();
         ErrorResponse response = given().accept(JSON).contentType(JSON)
                                         .when().get(generatedDog.getId())
@@ -77,7 +77,7 @@ public class DogControllerTest {
     }
 
     @Test
-    public void givenGeneratedDogWhenUpdateNoExistingDogByGeneratedDogIdThenHttpStatusIs404() {
+    public void updateNotExistingDog_results_into_httpStatusIs404() {
         Dog generatedDog = generateDog();
         ErrorResponse response = given().body(generatedDog).accept(JSON).contentType(JSON)
                                         .when().put(generatedDog.getId())
@@ -86,7 +86,7 @@ public class DogControllerTest {
     }
 
     @Test
-    public void givenGeneratedDogWhenDeleteNoExistingDogByGeneratedDogIdThenHttpStatusIs404() {
+    public void deleteNotExistingDog_results_into_httpStatusIs404() {
         Dog generatedDog = generateDog();
         ErrorResponse response = given().accept(JSON).contentType(JSON)
                                         .when().delete(generatedDog.getId())
@@ -96,7 +96,7 @@ public class DogControllerTest {
     }
 
     @Test
-    public void givenGeneratedDogWithInvalidNameWhenPostInvalidDogThenHttpStatusIs400() {
+    public void postInvalidDog_results_into_httpStatusIs400() {
         Dog generatedDog = generateDog();
         generatedDog.setName("");
         given().body(generatedDog).accept(JSON).contentType(JSON)
@@ -105,7 +105,7 @@ public class DogControllerTest {
     }
 
     @Test
-    public void givenGeneratedDogWithInvalidDateOfBirthWhenUpdateDogByInvalidDogThenHttpStatusIs400() {
+    public void putInvalidDog_results_into_httpStatusIs400() {
         Dog generatedDog = generateDog();
         generatedDog.setDateOfBirth(LocalDate.now());
         given().body(generatedDog).accept(JSON).contentType(JSON)

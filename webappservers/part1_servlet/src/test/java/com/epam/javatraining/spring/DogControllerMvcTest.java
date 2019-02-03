@@ -49,7 +49,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenWhenGetAllDogsThenCollectionWithSizeGreaterThanOrEqualTo5() throws Exception {
+    public void getList_results_intro_dogCollection() throws Exception {
         mockMvc.perform(get(BASE_URI).accept(MediaType.APPLICATION_JSON)
                                      .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().is(OK.value()))
@@ -58,7 +58,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenPostedDogWhenGetDogByPostedDogIdThenGotDogIsEqualsToPostedDog() throws Exception {
+    public void getDog_results_into_appropriateDog() throws Exception {
         Dog postedDog = getObject(mockMvc.perform(post(BASE_URI).content(objectMapper.writeValueAsString(generateDog()))
                                                                 .accept(MediaType.APPLICATION_JSON)
                                                                 .contentType(MediaType.APPLICATION_JSON))
@@ -71,7 +71,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenGeneratedDogWhenPostGeneratedDogThenPostedDogIsEqualsToGeneratedDog() throws Exception {
+    public void postDog_results_into_appropriateDogCreated() throws Exception {
         Dog generatedDog = generateDog();
         Dog dog = getObject(mockMvc.perform(post(BASE_URI).content(objectMapper.writeValueAsString(generatedDog))
                                                           .accept(MediaType.APPLICATION_JSON)
@@ -83,7 +83,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenPostedDogAndGeneratedDogWhenUpdatePostedDogByGeneratedDogThenUpdatedDogIsEqualsToGeneratedDogWithPostedDogId() throws Exception {
+    public void updateDog_results_into_appropriateDogUpdated() throws Exception {
         Dog postedDog = getObject(mockMvc.perform(post(BASE_URI).content(objectMapper.writeValueAsString(generateDog()))
                                                                 .accept(MediaType.APPLICATION_JSON)
                                                                 .contentType(MediaType.APPLICATION_JSON))
@@ -99,7 +99,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenPostedDogWhenDeleteDogByPostedDogIdThenHttpStatusIs204() throws Exception {
+    public void deleteDog_results_into_httpStatusIs204() throws Exception {
         Dog postedDog = getObject(mockMvc.perform(post(BASE_URI).content(objectMapper.writeValueAsString(generateDog()))
                                                                 .accept(MediaType.APPLICATION_JSON)
                                                                 .contentType(MediaType.APPLICATION_JSON))
@@ -110,7 +110,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenGeneratedDogWhenGetNoExistingDogByGeneratedDogIdThenHttpStatusIs404() throws Exception {
+    public void getNotExistingDog_results_into_httpStatusIs404() throws Exception {
         Dog generatedDog = generateDog();
         ErrorResponse response = getObject(mockMvc.perform(get(BASE_URI + generatedDog.getId()).accept(MediaType.APPLICATION_JSON)
                                                                                                .contentType(MediaType.APPLICATION_JSON))
@@ -120,7 +120,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenGeneratedDogWhenUpdateNoExistingDogByGeneratedDogIdThenHttpStatusIs404() throws Exception {
+    public void updateNotExistingDog_results_into_httpStatusIs404() throws Exception {
         Dog generatedDog = generateDog();
         ErrorResponse response = getObject(mockMvc.perform(put(BASE_URI + generatedDog.getId()).content(objectMapper.writeValueAsString(generatedDog))
                                                                                                .accept(MediaType.APPLICATION_JSON)
@@ -131,7 +131,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenGeneratedDogWhenDeleteNoExistingDogByGeneratedDogIdThenHttpStatusIs404() throws Exception {
+    public void deleteNotExistingDog_results_into_httpStatusIs404() throws Exception {
         Dog generatedDog = generateDog();
         ErrorResponse response = getObject(mockMvc.perform(delete(BASE_URI + generatedDog.getId()).accept(MediaType.APPLICATION_JSON)
                                                                                                   .contentType(MediaType.APPLICATION_JSON))
@@ -141,7 +141,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenGeneratedDogWithInvalidNameWhenPostInvalidDogThenHttpStatusIs400() throws Exception {
+    public void postInvalidDog_results_into_httpStatusIs400() throws Exception {
         Dog generatedDog = generateDog();
         generatedDog.setName("");
         getObject(mockMvc.perform(post(BASE_URI).content(objectMapper.writeValueAsString(generatedDog))
@@ -152,7 +152,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenGeneratedDogWithInvalidDateOfBirthWhenUpdateDogByInvalidDogThenHttpStatusIs400() throws Exception {
+    public void putInvalidDog_results_into_httpStatusIs400() throws Exception {
         Dog generatedDog = generateDog();
         generatedDog.setDateOfBirth(LocalDate.now());
         getObject(mockMvc.perform(put(BASE_URI + generatedDog.getId()).content(objectMapper.writeValueAsString(generatedDog))

@@ -29,7 +29,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void givenIsDogWithEmptyNameWhenValidateThenSizeConstraintViolation() {
+    public void emptyName_results_into_notValidNameSize() {
         Dog dog = generateDog();
         String shortName = RandomStringUtils.randomAlphabetic(0);
         dog.setName(shortName);
@@ -39,7 +39,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void givenIsDogWithToLongNameWhenValidateThenSizeConstraintViolation() {
+    public void tooLongName_results_into_notValidNameSize() {
         Dog dog = generateDog();
         String longName = RandomStringUtils.randomAlphabetic(101);
         dog.setName(longName);
@@ -49,7 +49,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void givenIsDogWithNullNameWhenValidateThenNotNullConstraintViolation() {
+    public void nullName_results_into_notValidName() {
         Dog dog = generateDog();
         dog.setName(null);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
@@ -58,7 +58,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void givenIsDogWithTodayBirthDateWhenValidateThenPastDateConstraintViolation() {
+    public void todayBirthDate_results_into_notValidBirthDate() {
         Dog dog = generateDog();
         dog.setDateOfBirth(LocalDate.now());
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
@@ -67,7 +67,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void givenIsDogWithFutureBirthDateWhenValidateThenPastDateConstraintViolation() {
+    public void futureBirthDate_results_into_notValidBirthDate() {
         Dog dog = generateDog();
         dog.setDateOfBirth(LocalDate.of(4019, 1, 10));
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
@@ -76,7 +76,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void givenIsDogWithNegativeHeightWhenValidateThenPositiveNumberConstraintViolation() {
+    public void negativeHeight_results_into_notValidPositiveHeight() {
         Dog dog = generateDog();
         dog.setHeight(-50);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
@@ -85,7 +85,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void givenIsDogNullHeightWhenValidateThenNotNullConstraintViolation() {
+    public void nullHeight_results_into_notValidHeight() {
         Dog dog = generateDog();
         dog.setHeight(null);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
@@ -94,7 +94,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void givenIsDogWithNegativeWeightWhenValidateThenPositiveNumberConstraintViolation() {
+    public void negativeWeight_results_into_notValidWeight() {
         Dog dog = generateDog();
         dog.setHeight(-50);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);
@@ -103,7 +103,7 @@ public class DogValidationTest {
     }
 
     @Test
-    public void givenIsDogNullWeightWhenValidateThenNotNullConstraintViolation() {
+    public void nullWeight_results_into_notValidWeight() {
         Dog dog = generateDog();
         dog.setHeight(null);
         Set<ConstraintViolation<Dog>> constraintViolations = validator.validate(dog);

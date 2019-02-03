@@ -9,7 +9,7 @@
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
-    <bean class="com.epam.javatraining.spring.dao.InMemoryDogDao" init-method="init"/>
+    <bean class="com.epam.javatraining.spring.dao.InMemoryDogDao" id="inMemoryDogDao" init-method="init"/>
     <bean class="com.epam.javatraining.spring.controller.ExceptionHandlerController"/>
-    <bean class="com.epam.javatraining.spring.controller.DogController"/>
+    <bean class="com.epam.javatraining.spring.controller.DogController" autowire="constructor"/>
 </beans>
