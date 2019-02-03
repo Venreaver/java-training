@@ -29,7 +29,7 @@ public class DogControllerTest {
     @Test
     public void givenWhenGetAllDogsThenCollectionWithSizeGreaterThanOrEqualTo5() {
         given().accept(JSON).contentType(JSON).when().get()
-               .then().assertThat().statusCode(OK.value()).contentType(JSON).body("size()", greaterThanOrEqualTo(5));
+               .then().statusCode(OK.value()).contentType(JSON).body("size()", greaterThanOrEqualTo(5));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class DogControllerTest {
         generatedDog.setName("");
         given().body(generatedDog).accept(JSON).contentType(JSON)
                .when().post()
-               .then().assertThat().statusCode(BAD_REQUEST.value()).extract().body().as(ErrorResponse.class);
+               .then().statusCode(BAD_REQUEST.value()).extract().body().as(ErrorResponse.class);
     }
 
     @Test
@@ -110,7 +110,7 @@ public class DogControllerTest {
         generatedDog.setDateOfBirth(LocalDate.now());
         given().body(generatedDog).accept(JSON).contentType(JSON)
                .when().put(generatedDog.getId())
-               .then().assertThat().statusCode(BAD_REQUEST.value()).extract().body().as(ErrorResponse.class);
+               .then().statusCode(BAD_REQUEST.value()).extract().body().as(ErrorResponse.class);
     }
 
     private Dog postDog(Dog dog) {

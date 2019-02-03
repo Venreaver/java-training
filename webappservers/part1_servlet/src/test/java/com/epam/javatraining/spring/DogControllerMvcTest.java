@@ -36,7 +36,7 @@ import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEqua
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("classpath:test-context.xml")
+@ContextConfiguration("classpath:web-context.xml")
 public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
