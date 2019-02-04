@@ -1,7 +1,6 @@
 package com.epam.javatraining.dogapp.controller;
 
 import com.epam.javatraining.dogapp.dao.DogDao;
-import com.epam.javatraining.dogapp.dao.InMemoryDogDao;
 import com.epam.javatraining.dogapp.model.Dog;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.Collection;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/dog", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = "dog")
 public class DogController {
-    private static final String DOG_ID = "/{id}";
+    private static final String DOG_ID = "{id}";
     private final DogDao dogDao;
 
     @GetMapping
@@ -31,7 +28,7 @@ public class DogController {
         return dogDao.getAll();
     }
 
-    @GetMapping(value = DOG_ID, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = DOG_ID)
     Dog get(@PathVariable String id) {
         return dogDao.get(id);
     }
@@ -41,13 +38,13 @@ public class DogController {
         return dogDao.create(dog);
     }
 
-    @PutMapping(value = DOG_ID)
+    @PutMapping(path = DOG_ID)
     Dog update(@Valid @RequestBody Dog dog, @PathVariable String id) {
         dog.setId(id);
         return dogDao.update(dog);
     }
 
-    @DeleteMapping(value = DOG_ID)
+    @DeleteMapping(path = DOG_ID)
     ResponseEntity delete(@PathVariable String id) {
         dogDao.delete(id);
         return ResponseEntity.noContent().build();

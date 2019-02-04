@@ -2,10 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:jdbc="http://www.springframework.org/schema/c"
-
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
     <mvc:annotation-driven>
         <mvc:message-converters>
@@ -15,6 +18,10 @@
     <bean class="com.epam.javatraining.dogapp.controller.ExceptionHandlerController"/>
     <bean class="com.epam.javatraining.dogapp.controller.DogController" autowire="constructor"/>
 
+    <beans profile="default">
+        <bean class="com.epam.javatraining.dogapp.dao.InMemoryDogDao" init-method="init"/>
+    </beans>
+    <!--run with "-Dspring.profiles.active=jdbc"-->
     <beans profile="jdbc">
         <bean class="com.epam.javatraining.dogapp.dao.JdbcDogDao">
             <constructor-arg>
@@ -24,8 +31,5 @@
                 </jdbc:embedded-database>
             </constructor-arg>
         </bean>
-    </beans>
-    <beans profile="default">
-        <bean class="com.epam.javatraining.dogapp.dao.InMemoryDogDao" init-method="init"/>
     </beans>
 </beans>
