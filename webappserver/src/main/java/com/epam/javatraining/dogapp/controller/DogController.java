@@ -1,5 +1,6 @@
 package com.epam.javatraining.dogapp.controller;
 
+import com.epam.javatraining.dogapp.dao.DogDao;
 import com.epam.javatraining.dogapp.dao.InMemoryDogDao;
 import com.epam.javatraining.dogapp.model.Dog;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/dog", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class DogController {
     private static final String DOG_ID = "/{id}";
-    private final InMemoryDogDao dogDao;
+    private final DogDao dogDao;
 
     @GetMapping
     Collection<Dog> get() {

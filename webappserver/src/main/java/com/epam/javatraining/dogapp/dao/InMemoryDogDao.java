@@ -9,9 +9,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class InMemoryDogDao {
+public class InMemoryDogDao implements DogDao {
     private static Map<String, Dog> DOGS = new ConcurrentHashMap<>();
-    private static final String DOG_ID = "/{id}";
 
     public void init() {
         Dog first = new Dog("1", "First", LocalDate.of(2016, 1, 10), 30, 6);
