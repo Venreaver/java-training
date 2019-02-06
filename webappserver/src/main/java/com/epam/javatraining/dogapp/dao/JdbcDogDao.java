@@ -10,9 +10,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
-import static com.epam.javatraining.dogapp.constants.SqlStatements.GET_DOG_BY_ID;
+import static com.epam.javatraining.dogapp.constants.SqlStatements.CREATE_DOG;
+import static com.epam.javatraining.dogapp.constants.SqlStatements.DELETE_DOG;
+import static com.epam.javatraining.dogapp.constants.SqlStatements.GET_ALL_DOGS;
+import static com.epam.javatraining.dogapp.constants.SqlStatements.GET_DOG;
+import static com.epam.javatraining.dogapp.constants.SqlStatements.UPDATE_DOG;
 
 @AllArgsConstructor
 public class JdbcDogDao implements DogDao {
@@ -28,38 +35,63 @@ public class JdbcDogDao implements DogDao {
 
     @Override
     public Dog create(Dog dog) {
-        return null;
+        dog.setId(UUID.randomUUID().toString());
+        executeUpdate(String.format(CREATE_DOG,
+                dog.getId(), dog.getName(), dog.getDateOfBirth(), dog.getHeight(), dog.getWeight()));
+        return dog;
     }
 
     @Override
     public Collection<Dog> getAll() {
-        return null;
+        return executeQuery(GET_ALL_DOGS);
     }
 
     @Override
     public Dog get(String id) {
-        return executeQuery(String.format(GET_DOG_BY_ID, id));
+        List<Dog> result = executeQuery(String.format(GET_DOG, id));
+        if (result.isEmpty()) {
+            throw new DogNotFoundException(id);
+        }
+        return result.get(0);
     }
 
     @Override
     public Dog update(Dog dog) {
-        return null;
+        int rowCount = executeUpdate(String.format(UPDATE_DOG,
+                dog.getName(), dog.getDateOfBirth(), dog.getHeight(), dog.getWeight(), dog.getId()));
+        if (rowCount < 1) {
+            throw new DogNotFoundException(dog.getId());
+        }
+        return dog;
     }
 
     @Override
     public void delete(String id) {
-
+        int rowCount = executeUpdate(String.format(DELETE_DOG, id));
+        if (rowCount < 1) {
+            throw new DogNotFoundException(id);
+        }
     }
 
-    private Dog executeQuery(String id) {
+    private List<Dog> executeQuery(String sqlQuery) {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(String.format(GET_DOG_BY_ID, id))) {
-            if (resultSet.next()) {
-                return dogRowMapper.mapRow(resultSet, 0);
-            } else {
-                throw new DogNotFoundException(id);
+             ResultSet resultSet = statement.executeQuery(sqlQuery)) {
+            List<Dog> result = new ArrayList<>();
+            while (resultSet.next()) {
+                result.add(dogRowMapper.mapRow(resultSet, 0));
             }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int executeUpdate(String sqlQuery) {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+            List<Dog> result = new ArrayList<>();
+            return statement.executeUpdate(sqlQuery);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
