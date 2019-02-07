@@ -3,11 +3,10 @@ package com.epam.javatraining.dao;
 import com.epam.javatraining.dogapp.dao.DogDao;
 import com.epam.javatraining.dogapp.exception.DogNotFoundException;
 import com.epam.javatraining.dogapp.model.Dog;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
 import java.util.Collection;
 
@@ -17,9 +16,8 @@ import static org.junit.Assert.assertThat;
 import static org.testng.Assert.assertThrows;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:web-context.xml")
-public class DogDaoTest {
+public class DogDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private DogDao dogDao;
 
