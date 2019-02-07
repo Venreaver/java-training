@@ -3,6 +3,7 @@ package com.epam.javatraining.dao;
 import com.epam.javatraining.dogapp.dao.DogDao;
 import com.epam.javatraining.dogapp.exception.DogNotFoundException;
 import com.epam.javatraining.dogapp.model.Dog;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -19,7 +20,7 @@ import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEqua
 @ContextConfiguration("classpath:web-context.xml")
 public class DogDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
-    private DogDao dogDao;
+    DogDao dogDao;
 
     @Test
     public void getList_results_intro_dogCollection() {
@@ -37,6 +38,7 @@ public class DogDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void postDog_results_into_appropriateDogCreated() {
         Dog generatedDog = generateDog();
+        generatedDog.setName(RandomStringUtils.randomAlphabetic(100));
         Dog dog = createDog(generatedDog);
         generatedDog.setId(dog.getId());
         assertReflectionEquals(generatedDog, dog);
