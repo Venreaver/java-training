@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 import static com.epam.javatraining.model.DogValidationTest.generateDog;
@@ -72,6 +73,39 @@ public class DogDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void deleteNotExistingDog_results_into_DogNotFoundException() {
         assertThrows(DogNotFoundException.class, () -> dogDao.delete(generateDog().getId()));
+    }
+
+    @Test
+    public void createDogWithMinConstraints_results_into_appropriateCreation() {
+        Dog generatedDog = generateDog();
+        generatedDog.setName("q");
+        generatedDog.setWeight(Integer.MIN_VALUE);
+        generatedDog.setHeight(Integer.MIN_VALUE);
+        generatedDog.setDateOfBirth(LocalDate.MIN);
+        Dog dog = dogDao.create(generatedDog);
+        generatedDog.setId(dog.getId());
+        assertReflectionEquals(generatedDog, dog);
+    }
+
+    @Test
+    public void createDogWithMaxConstraints_results_into_appropriateCreation() {
+        Dog generatedDog = generateDog();
+        generatedDog.setName(RandomStringUtils.randomAlphabetic(100));
+        generatedDog.setWeight(Integer.MAX_VALUE);
+        generatedDog.setHeight(Integer.MAX_VALUE);
+        generatedDog.setDateOfBirth(LocalDate.MAX);
+        Dog dog = dogDao.create(generatedDog);
+        generatedDog.setId(dog.getId());
+        assertReflectionEquals(generatedDog, dog);
+    }
+
+    @Test
+    public void createDogWithNullBirthDate_results_into_appropriateCreation() {
+        Dog generatedDog = generateDog();
+        generatedDog.setDateOfBirth(null);
+        Dog dog = dogDao.create(generatedDog);
+        generatedDog.setId(dog.getId());
+        assertReflectionEquals(generatedDog, dog);
     }
 
     private Dog createDog(Dog dog) {

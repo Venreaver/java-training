@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +29,7 @@ public class JdbcDogDao implements DogDao {
             Dog.builder()
                .id(rs.getString("id"))
                .name(rs.getString("name"))
-               .dateOfBirth(rs.getDate("birth_date").toLocalDate())
+               .dateOfBirth(rs.getObject("birth_date", LocalDate.class))
                .height(rs.getInt("height"))
                .weight(rs.getInt("weight"))
                .build();
@@ -37,7 +38,8 @@ public class JdbcDogDao implements DogDao {
     public Dog create(Dog dog) {
         dog.setId(UUID.randomUUID().toString());
         executeUpdate(String.format(CREATE_DOG,
-                dog.getId(), dog.getName(), dog.getDateOfBirth(), dog.getHeight(), dog.getWeight()));
+                quote(dog.getId()), quote(dog.getName()),
+                quote(dog.getDateOfBirth()), dog.getHeight(), dog.getWeight()));
         return dog;
     }
 
@@ -48,7 +50,7 @@ public class JdbcDogDao implements DogDao {
 
     @Override
     public Dog get(String id) {
-        List<Dog> result = executeQuery(String.format(GET_DOG, id));
+        List<Dog> result = executeQuery(String.format(GET_DOG, quote(id)));
         if (result.isEmpty()) {
             throw new DogNotFoundException(id);
         }
@@ -58,7 +60,8 @@ public class JdbcDogDao implements DogDao {
     @Override
     public Dog update(Dog dog) {
         int rowCount = executeUpdate(String.format(UPDATE_DOG,
-                dog.getName(), dog.getDateOfBirth(), dog.getHeight(), dog.getWeight(), dog.getId()));
+                quote(dog.getName()), quote(dog.getDateOfBirth()),
+                dog.getHeight(), dog.getWeight(), quote(dog.getId())));
         if (rowCount < 1) {
             throw new DogNotFoundException(dog.getId());
         }
@@ -67,7 +70,7 @@ public class JdbcDogDao implements DogDao {
 
     @Override
     public void delete(String id) {
-        int rowCount = executeUpdate(String.format(DELETE_DOG, id));
+        int rowCount = executeUpdate(String.format(DELETE_DOG, quote(id)));
         if (rowCount < 1) {
             throw new DogNotFoundException(id);
         }
@@ -90,10 +93,13 @@ public class JdbcDogDao implements DogDao {
     private int executeUpdate(String sqlQuery) {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
-            List<Dog> result = new ArrayList<>();
             return statement.executeUpdate(sqlQuery);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String quote(Object obj) {
+        return obj == null ? null : String.format("'%s'", obj.toString());
     }
 }
