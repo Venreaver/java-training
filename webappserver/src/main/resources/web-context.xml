@@ -21,9 +21,20 @@
     <beans profile="default">
         <bean class="com.epam.javatraining.dogapp.dao.InMemoryDogDao" init-method="init"/>
     </beans>
-    <!--run with "-Dspring.profiles.active=jdbc"-->
-    <beans profile="jdbc">
-        <bean class="com.epam.javatraining.dogapp.dao.JdbcDogDao">
+    <!--run with "-Dspring.profiles.active=h2-st"-->
+    <beans profile="h2-st">
+        <bean class="com.epam.javatraining.dogapp.dao.JdbcStatementDogDao">
+            <constructor-arg>
+                <jdbc:embedded-database type="H2" database-name="myDB">
+                    <jdbc:script location="classpath:sql/schema.sql"/>
+                    <jdbc:script location="classpath:sql/data.sql"/>
+                </jdbc:embedded-database>
+            </constructor-arg>
+        </bean>
+    </beans>
+    <!--run with "-Dspring.profiles.active=h2-prep"-->
+    <beans profile="h2-prep">
+        <bean class="com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao">
             <constructor-arg>
                 <jdbc:embedded-database type="H2" database-name="myDB">
                     <jdbc:script location="classpath:sql/schema.sql"/>
