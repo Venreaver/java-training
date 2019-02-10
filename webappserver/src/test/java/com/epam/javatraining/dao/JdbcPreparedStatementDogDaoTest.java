@@ -11,7 +11,7 @@ import static org.junit.Assert.assertThat;
 @ActiveProfiles("h2-prep")
 public class JdbcPreparedStatementDogDaoTest extends JdbcDogDaoTest {
     @Test
-    public void sqlInjection_results_into_truncatingTable() {
+    public void sqlInjection_has_no_effects() {
         Dog createdDog = dogDao.create(generateDog());
         createdDog.setName("'; TRUNCATE TABLE dog; --");
         dogDao.update(createdDog);

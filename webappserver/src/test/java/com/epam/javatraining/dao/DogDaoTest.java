@@ -24,7 +24,7 @@ public class DogDaoTest extends AbstractTestNGSpringContextTests {
     DogDao dogDao;
 
     @Test
-    public void getList_results_intro_dogCollection() {
+    public void getList_results_into_dogCollection() {
         Collection<Dog> dogs = dogDao.getAll();
         assertThat(dogs.size(), greaterThanOrEqualTo(5));
     }

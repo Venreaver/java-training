@@ -27,7 +27,7 @@ public class DogControllerTest {
     }
 
     @Test
-    public void getList_results_intro_dogCollection() {
+    public void getList_results_into_dogCollection() {
         given().accept(JSON).contentType(JSON).when().get()
                .then().statusCode(OK.value()).contentType(JSON).body("size()", greaterThanOrEqualTo(5));
     }

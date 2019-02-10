@@ -46,7 +46,7 @@ public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void getList_results_intro_dogCollection() throws Exception {
+    public void getList_results_into_dogCollection() throws Exception {
         mockMvc.perform(get(BASE_URI).accept(MediaType.APPLICATION_JSON)
                                      .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().is(OK.value()))
