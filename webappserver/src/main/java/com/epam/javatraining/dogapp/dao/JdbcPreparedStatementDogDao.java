@@ -5,6 +5,7 @@ import com.epam.javatraining.dogapp.model.Dog;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ import static com.epam.javatraining.dogapp.constants.SqlStatements.DELETE_DOG_PR
 import static com.epam.javatraining.dogapp.constants.SqlStatements.GET_ALL_DOGS;
 import static com.epam.javatraining.dogapp.constants.SqlStatements.GET_DOG_PREP;
 import static com.epam.javatraining.dogapp.constants.SqlStatements.UPDATE_DOG_PREP;
+import static java.sql.Date.valueOf;
 
 public class JdbcPreparedStatementDogDao extends JdbcDogDao {
     public JdbcPreparedStatementDogDao(DataSource dataSource) {
@@ -34,7 +36,7 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
                     try {
                         statement.setString(1, dog.getId());
                         statement.setString(2, dog.getName());
-                        statement.setString(3, getNullableDate(dog.getDateOfBirth()));
+                        statement.setDate(3, getNullableDate(dog.getDateOfBirth()));
                         statement.setInt(4, dog.getHeight());
                         statement.setInt(5, dog.getWeight());
                     } catch (SQLException e) {
@@ -71,7 +73,7 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
                 statement -> {
                     try {
                         statement.setString(1, dog.getName());
-                        statement.setString(2, getNullableDate(dog.getDateOfBirth()));
+                        statement.setDate(2, getNullableDate(dog.getDateOfBirth()));
                         statement.setInt(3, dog.getHeight());
                         statement.setInt(4, dog.getWeight());
                         statement.setString(5, dog.getId());
@@ -125,7 +127,7 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
         }
     }
 
-    private String getNullableDate(LocalDate date) {
-        return date == null ? null : date.toString();
+    private Date getNullableDate(LocalDate date) {
+        return date == null ? null : valueOf(date);
     }
 }

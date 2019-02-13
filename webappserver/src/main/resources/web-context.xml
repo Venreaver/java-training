@@ -18,6 +18,14 @@
     <bean class="com.epam.javatraining.dogapp.controller.ExceptionHandlerController"/>
     <bean class="com.epam.javatraining.dogapp.controller.DogController" autowire="constructor"/>
 
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/postgres"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="as123"/>
+    </bean>
+
     <beans profile="default">
         <bean class="com.epam.javatraining.dogapp.dao.InMemoryDogDao" init-method="init"/>
     </beans>
@@ -43,4 +51,11 @@
             </constructor-arg>
         </bean>
     </beans>
+    <!--run with "-Dspring.profiles.active=postgres"-->
+    <beans profile="postgres">
+        <bean class="com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao">
+            <constructor-arg ref="dataSource"/>
+        </bean>
+    </beans>
+
 </beans>

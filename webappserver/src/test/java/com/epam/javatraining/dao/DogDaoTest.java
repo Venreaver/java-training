@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 
-import java.time.LocalDate;
 import java.util.Collection;
 
 import static com.epam.javatraining.model.DogValidationTest.generateDog;
@@ -81,7 +80,6 @@ public class DogDaoTest extends AbstractTestNGSpringContextTests {
         generatedDog.setName("q");
         generatedDog.setWeight(Integer.MIN_VALUE);
         generatedDog.setHeight(Integer.MIN_VALUE);
-        generatedDog.setDateOfBirth(LocalDate.MIN);
         Dog dog = dogDao.create(generatedDog);
         generatedDog.setId(dog.getId());
         assertReflectionEquals(generatedDog, dog);
@@ -93,7 +91,6 @@ public class DogDaoTest extends AbstractTestNGSpringContextTests {
         generatedDog.setName(RandomStringUtils.randomAlphabetic(100));
         generatedDog.setWeight(Integer.MAX_VALUE);
         generatedDog.setHeight(Integer.MAX_VALUE);
-        generatedDog.setDateOfBirth(LocalDate.MAX);
         Dog dog = dogDao.create(generatedDog);
         generatedDog.setId(dog.getId());
         assertReflectionEquals(generatedDog, dog);
