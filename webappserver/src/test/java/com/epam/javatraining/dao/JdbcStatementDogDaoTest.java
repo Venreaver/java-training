@@ -8,7 +8,7 @@ import static com.epam.javatraining.model.DogValidationTest.generateDog;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-@ActiveProfiles("h2-st")
+@ActiveProfiles({"h2", "st"})
 public class JdbcStatementDogDaoTest extends JdbcDogDaoTest {
     @Test
     public void sqlInjection_results_into_truncatingTable() {

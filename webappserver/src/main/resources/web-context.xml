@@ -8,7 +8,8 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/jdbc
-       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd"
+       default-autowire="constructor">
 
     <mvc:annotation-driven>
         <mvc:message-converters>
@@ -16,45 +17,50 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
     <bean class="com.epam.javatraining.dogapp.controller.ExceptionHandlerController"/>
-    <bean class="com.epam.javatraining.dogapp.controller.DogController" autowire="constructor"/>
-
-    <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/postgres"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="as123"/>
-    </bean>
+    <bean class="com.epam.javatraining.dogapp.controller.DogController"/>
 
     <beans profile="default">
         <bean class="com.epam.javatraining.dogapp.dao.InMemoryDogDao" init-method="init"/>
     </beans>
-    <!--run with "-Dspring.profiles.active=h2-st"-->
-    <beans profile="h2-st">
-        <bean class="com.epam.javatraining.dogapp.dao.JdbcStatementDogDao">
-            <constructor-arg>
-                <jdbc:embedded-database type="H2" database-name="myDB">
-                    <jdbc:script location="classpath:sql/schema.sql"/>
-                    <jdbc:script location="classpath:sql/data.sql"/>
-                </jdbc:embedded-database>
-            </constructor-arg>
+        <!--run with "-Dspring.profiles.active=h2"-->
+    <beans profile="h2">
+        <jdbc:embedded-database id="h2DataSource" type="H2" database-name="myDB"/>
+        <bean id="h2flywayConfig" class="org.flywaydb.core.api.configuration.ClassicConfiguration">
+            <property name="dataSource" ref="h2DataSource"/>
         </bean>
-    </beans>
-    <!--run with "-Dspring.profiles.active=h2-prep"-->
-    <beans profile="h2-prep">
-        <bean class="com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao">
-            <constructor-arg>
-                <jdbc:embedded-database type="H2" database-name="myDB">
-                    <jdbc:script location="classpath:sql/schema.sql"/>
-                    <jdbc:script location="classpath:sql/data.sql"/>
-                </jdbc:embedded-database>
-            </constructor-arg>
+        <bean class="org.flywaydb.core.Flyway" init-method="migrate">
+            <constructor-arg ref="h2flywayConfig"/>
         </bean>
+        <!--run with "-Dspring.profiles.active=h2, st"-->
+        <beans profile="st">
+            <bean class="com.epam.javatraining.dogapp.dao.JdbcStatementDogDao">
+                <constructor-arg ref="h2DataSource"/>
+            </bean>
+        </beans>
+        <!--run with "-Dspring.profiles.active=h2, prep"-->
+        <beans profile="prep">
+            <bean class="com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao">
+                <constructor-arg ref="h2DataSource"/>
+            </bean>
+        </beans>
     </beans>
     <!--run with "-Dspring.profiles.active=postgres"-->
     <beans profile="postgres">
+        <bean id="postgresDataSource"
+              class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="driverClassName" value="org.postgresql.Driver"/>
+            <property name="url" value="jdbc:postgresql://localhost:5432/postgres"/>
+            <property name="username" value="postgres"/>
+            <property name="password" value="as123"/>
+        </bean>
+        <bean id="postgresflywayConfig" class="org.flywaydb.core.api.configuration.ClassicConfiguration">
+            <property name="dataSource" ref="postgresDataSource"/>
+        </bean>
         <bean class="com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao">
-            <constructor-arg ref="dataSource"/>
+            <constructor-arg ref="postgresDataSource"/>
+        </bean>
+        <bean class="org.flywaydb.core.Flyway" init-method="migrate">
+            <constructor-arg ref="postgresflywayConfig"/>
         </bean>
     </beans>
 
