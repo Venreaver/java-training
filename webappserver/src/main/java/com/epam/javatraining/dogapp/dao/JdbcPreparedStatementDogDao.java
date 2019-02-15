@@ -103,25 +103,39 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
     }
 
     private List<Dog> executeQuery(String sqlQuery, Consumer<PreparedStatement> consumer) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
-            List<Dog> result = new ArrayList<>();
-            consumer.accept(statement);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                result.add(dogRowMapper.mapRow(resultSet, 0));
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                consumer.accept(statement);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    List<Dog> result = new ArrayList<>();
+                    connection.commit();
+                    while (resultSet.next()) {
+                        result.add(dogRowMapper.mapRow(resultSet, 0));
+                    }
+                    return result;
+                }
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new RuntimeException(e);
             }
-            return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     private int executeUpdate(String sqlQuery, Consumer<PreparedStatement> consumer) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
-            consumer.accept(statement);
-            return statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                consumer.accept(statement);
+                int res = statement.executeUpdate();
+                connection.commit();
+                return res;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new RuntimeException(e);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
