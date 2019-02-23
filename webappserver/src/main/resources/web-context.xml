@@ -17,6 +17,7 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
     <bean class="com.epam.javatraining.dogapp.controller.ExceptionHandlerController"/>
+    <bean class="com.epam.javatraining.dogapp.service.DogService"/>
     <bean class="com.epam.javatraining.dogapp.controller.DogController"/>
 
     <beans profile="default">
@@ -30,6 +31,9 @@
         </bean>
         <bean class="org.flywaydb.core.Flyway" init-method="migrate">
             <constructor-arg ref="h2flywayConfig"/>
+        </bean>
+        <bean class="com.epam.javatraining.dogapp.dao.JdbcConnectionHolder">
+            <constructor-arg ref="h2DataSource"/>
         </bean>
         <!--run with "-Dspring.profiles.active=h2, st"-->
         <beans profile="st">
@@ -61,6 +65,9 @@
         </bean>
         <bean class="org.flywaydb.core.Flyway" init-method="migrate">
             <constructor-arg ref="postgresflywayConfig"/>
+        </bean>
+        <bean class="com.epam.javatraining.dogapp.dao.JdbcConnectionHolder">
+            <constructor-arg ref="postgresDataSource"/>
         </bean>
     </beans>
 

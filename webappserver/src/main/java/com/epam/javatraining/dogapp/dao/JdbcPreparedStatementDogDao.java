@@ -89,7 +89,7 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
     }
 
     @Override
-    public void delete(String id) {
+    public int delete(String id) {
         int rowCount = executeUpdate(DELETE_DOG_PREP, statement -> {
             try {
                 statement.setString(1, id);
@@ -100,42 +100,29 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
         if (rowCount < 1) {
             throw new DogNotFoundException(id);
         }
+        return rowCount;
     }
 
     private List<Dog> executeQuery(String sqlQuery, Consumer<PreparedStatement> consumer) {
-        try (Connection connection = dataSource.getConnection()) {
-            connection.setAutoCommit(false);
-            try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
-                consumer.accept(statement);
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    List<Dog> result = new ArrayList<>();
-                    connection.commit();
-                    while (resultSet.next()) {
-                        result.add(dogRowMapper.mapRow(resultSet, 0));
-                    }
-                    return result;
-                }
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new RuntimeException(e);
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+            List<Dog> result = new ArrayList<>();
+            consumer.accept(statement);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                result.add(dogRowMapper.mapRow(resultSet, 0));
             }
+            return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     private int executeUpdate(String sqlQuery, Consumer<PreparedStatement> consumer) {
-        try (Connection connection = dataSource.getConnection()) {
-            connection.setAutoCommit(false);
-            try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
-                consumer.accept(statement);
-                int res = statement.executeUpdate();
-                connection.commit();
-                return res;
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new RuntimeException(e);
-            }
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+            consumer.accept(statement);
+            return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

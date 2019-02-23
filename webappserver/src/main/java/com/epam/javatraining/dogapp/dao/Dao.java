@@ -11,5 +11,5 @@ public interface Dao<T> {
 
     T update(T dog);
 
-    void delete(String id);
+    int delete(String id);
 }

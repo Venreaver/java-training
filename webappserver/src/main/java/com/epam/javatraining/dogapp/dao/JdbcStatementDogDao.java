@@ -59,11 +59,12 @@ public class JdbcStatementDogDao extends JdbcDogDao {
     }
 
     @Override
-    public void delete(String id) {
+    public int delete(String id) {
         int rowCount = executeUpdate(String.format(DELETE_DOG, quote(id)));
         if (rowCount < 1) {
             throw new DogNotFoundException(id);
         }
+        return rowCount;
     }
 
     private List<Dog> executeQuery(String sqlQuery) {

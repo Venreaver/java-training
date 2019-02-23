@@ -50,10 +50,11 @@ public class InMemoryDogDao implements DogDao {
         throw new DogNotFoundException(dog.getId());
     }
 
-    public void delete(String id) {
+    public int delete(String id) {
         if (!DOGS.containsKey(id)) {
             throw new DogNotFoundException(id);
         }
         DOGS.remove(id);
+        return 1;
     }
 }
