@@ -17,7 +17,11 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
     <bean class="com.epam.javatraining.dogapp.controller.ExceptionHandlerController"/>
-    <bean class="com.epam.javatraining.dogapp.service.DogService"/>
+    <bean class="com.epam.javatraining.dogapp.service.TransactionalDogService">
+        <constructor-arg>
+            <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>
+        </constructor-arg>
+    </bean>
     <bean class="com.epam.javatraining.dogapp.controller.DogController"/>
 
     <beans profile="default">
