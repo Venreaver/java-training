@@ -5,7 +5,7 @@ import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.InvocationHandler;
 
 public class CglibTransactionalDogService extends TransactionalService implements InvocationHandler {
-    public CglibTransactionalDogService(JdbcConnectionHolder holder, Object target) {
+    private CglibTransactionalDogService(JdbcConnectionHolder holder, Object target) {
         super(holder, target);
     }
 
