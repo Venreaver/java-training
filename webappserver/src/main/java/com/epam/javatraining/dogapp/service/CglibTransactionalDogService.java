@@ -2,16 +2,15 @@ package com.epam.javatraining.dogapp.service;
 
 import com.epam.javatraining.dogapp.dao.JdbcConnectionHolder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.proxy.Enhancer;
+import org.springframework.cglib.proxy.InvocationHandler;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static java.lang.reflect.Proxy.newProxyInstance;
-
 @RequiredArgsConstructor
-public class TransactionalProxy implements InvocationHandler {
+public class CglibTransactionalDogService implements InvocationHandler {
     private final JdbcConnectionHolder holder;
     private final Object target;
 
@@ -36,8 +35,9 @@ public class TransactionalProxy implements InvocationHandler {
     }
 
     public static Object getInstance(Object target, JdbcConnectionHolder holder) {
-        return newProxyInstance(target.getClass().getClassLoader(),
-                target.getClass().getInterfaces(),
-                new TransactionalProxy(holder, target));
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(target.getClass());
+        enhancer.setCallback(new CglibTransactionalDogService(holder, target));
+        return enhancer.create();
     }
 }

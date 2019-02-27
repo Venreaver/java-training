@@ -2,13 +2,15 @@ package com.epam.javatraining.dogapp.service;
 
 import com.epam.javatraining.dogapp.dao.DogDao;
 import com.epam.javatraining.dogapp.model.Dog;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class DogServiceImpl implements DogService {
-    private final DogDao dogDao;
+    private DogDao dogDao;
 
     public Collection<Dog> getAll() {
         return dogDao.getAll();

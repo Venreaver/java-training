@@ -22,7 +22,12 @@
 <!--            <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>-->
 <!--        </constructor-arg>-->
 <!--    </bean>-->
-    <bean id="dogService" class="com.epam.javatraining.dogapp.service.TransactionalProxy" factory-method="init">
+<!--    <bean class="com.epam.javatraining.dogapp.service.TransactionalProxy" factory-method="getInstance">-->
+<!--        <constructor-arg>-->
+<!--            <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>-->
+<!--        </constructor-arg>-->
+<!--    </bean>-->
+    <bean class="com.epam.javatraining.dogapp.service.CglibTransactionalDogService" factory-method="getInstance">
         <constructor-arg>
             <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>
         </constructor-arg>
