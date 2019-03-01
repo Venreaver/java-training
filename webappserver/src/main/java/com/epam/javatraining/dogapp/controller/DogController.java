@@ -1,5 +1,6 @@
 package com.epam.javatraining.dogapp.controller;
 
+import com.epam.javatraining.dogapp.exception.DogNotFoundException;
 import com.epam.javatraining.dogapp.model.Dog;
 import com.epam.javatraining.dogapp.service.DogService;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,11 @@ public class DogController {
 
     @GetMapping(path = DOG_ID)
     Dog get(@PathVariable String id) {
-        return dogService.get(id);
+        Dog dog = dogService.get(id);
+        if (dog == null) {
+            throw new DogNotFoundException(id);
+        }
+        return dog;
     }
 
     @PostMapping
@@ -41,12 +46,19 @@ public class DogController {
     @PutMapping(path = DOG_ID)
     Dog update(@Valid @RequestBody Dog dog, @PathVariable String id) {
         dog.setId(id);
-        return dogService.update(dog);
+        Dog updatedDog = dogService.update(dog);
+        if (updatedDog == null) {
+            throw new DogNotFoundException(id);
+        }
+        return updatedDog;
     }
 
     @DeleteMapping(path = DOG_ID)
     ResponseEntity delete(@PathVariable String id) {
-        dogService.delete(id);
+        int rowCount = dogService.delete(id);
+        if (rowCount < 1) {
+            throw new DogNotFoundException(id);
+        }
         return ResponseEntity.noContent().build();
     }
 }

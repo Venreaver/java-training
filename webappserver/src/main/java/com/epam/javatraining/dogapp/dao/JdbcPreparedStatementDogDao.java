@@ -1,6 +1,5 @@
 package com.epam.javatraining.dogapp.dao;
 
-import com.epam.javatraining.dogapp.exception.DogNotFoundException;
 import com.epam.javatraining.dogapp.model.Dog;
 
 import javax.sql.DataSource;
@@ -61,10 +60,7 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
                 e.printStackTrace();
             }
         });
-        if (result.isEmpty()) {
-            throw new DogNotFoundException(id);
-        }
-        return result.get(0);
+        return result.isEmpty() ? null: result.get(0);
     }
 
     @Override
@@ -82,25 +78,18 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
                     }
                 }
         );
-        if (rowCount < 1) {
-            throw new DogNotFoundException(dog.getId());
-        }
-        return dog;
+        return rowCount < 1 ? null : dog;
     }
 
     @Override
     public int delete(String id) {
-        int rowCount = executeUpdate(DELETE_DOG_PREP, statement -> {
+        return executeUpdate(DELETE_DOG_PREP, statement -> {
             try {
                 statement.setString(1, id);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
-        if (rowCount < 1) {
-            throw new DogNotFoundException(id);
-        }
-        return rowCount;
     }
 
     private List<Dog> executeQuery(String sqlQuery, Consumer<PreparedStatement> consumer) {

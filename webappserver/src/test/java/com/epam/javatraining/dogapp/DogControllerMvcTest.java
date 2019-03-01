@@ -5,6 +5,7 @@ import com.epam.javatraining.dogapp.model.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -33,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 @WebAppConfiguration
+@ActiveProfiles({"postgres", "prep"})
 @ContextConfiguration("classpath:web-context.xml")
 public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     private MockMvc mockMvc;

@@ -3,6 +3,7 @@ package com.epam.javatraining.dogapp;
 import com.epam.javatraining.dogapp.model.Dog;
 import com.epam.javatraining.dogapp.model.ErrorResponse;
 import com.jayway.restassured.RestAssured;
+import org.springframework.test.context.ActiveProfiles;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -20,6 +21,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
+@ActiveProfiles({"postgres", "prep"})
 public class DogControllerTest {
     @BeforeClass
     public static void setUp() {

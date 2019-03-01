@@ -1,5 +1,6 @@
 package com.epam.javatraining.queues;
 
+import org.springframework.test.context.ActiveProfiles;
 import org.testng.annotations.Test;
 
 import java.net.HttpURLConnection;
@@ -12,6 +13,7 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@ActiveProfiles({"postgres", "prep"})
 public class LoadTest {
     private static final String HELLO_URL = "http://localhost:8080/hello";
     private static final int THREADS_COUNT = 10;
