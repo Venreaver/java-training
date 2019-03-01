@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>maven</module>
-        <module>webappservers</module>
+        <module>webappserver</module>
     </modules>
     <packaging>pom</packaging>
 </project>

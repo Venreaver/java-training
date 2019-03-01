@@ -3,30 +3,39 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/jdbc
-       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd"
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd"
        default-autowire="constructor">
 
+    <context:annotation-config/>
+    <aop:aspectj-autoproxy/>
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
     <bean class="com.epam.javatraining.dogapp.controller.ExceptionHandlerController"/>
-<!--    <bean class="com.epam.javatraining.dogapp.service.TransactionalDogService">-->
-<!--        <constructor-arg>-->
-<!--            <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>-->
-<!--        </constructor-arg>-->
-<!--    </bean>-->
-<!--    <bean class="com.epam.javatraining.dogapp.service.TransactionalProxy" factory-method="getInstance">-->
-<!--        <constructor-arg>-->
-<!--            <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>-->
-<!--        </constructor-arg>-->
-<!--    </bean>-->
+    <!--    <bean class="com.epam.javatraining.dogapp.service.TransactionalDogService">-->
+    <!--        <constructor-arg>-->
+    <!--            <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>-->
+    <!--        </constructor-arg>-->
+    <!--    </bean>-->
+    <!--    <bean class="com.epam.javatraining.dogapp.service.TransactionalProxy" factory-method="getInstance">-->
+    <!--        <constructor-arg>-->
+    <!--            <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>-->
+    <!--        </constructor-arg>-->
+    <!--    </bean>-->
     <bean class="com.epam.javatraining.dogapp.service.CglibTransactionalDogService" factory-method="getInstance">
         <constructor-arg>
             <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>
@@ -43,7 +52,7 @@
         </bean>
     </beans>
 
-        <!--run with "-Dspring.profiles.active=h2"-->
+    <!--run with "-Dspring.profiles.active=h2"-->
     <beans profile="h2">
         <jdbc:embedded-database id="h2DataSource" type="H2" database-name="myDB"/>
         <bean id="h2flywayConfig" class="org.flywaydb.core.api.configuration.ClassicConfiguration">

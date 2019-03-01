@@ -1,5 +1,6 @@
 package com.epam.javatraining.dogapp.controller;
 
+import com.epam.javatraining.dogapp.aspect.Log;
 import com.epam.javatraining.dogapp.exception.DogNotFoundException;
 import com.epam.javatraining.dogapp.model.Dog;
 import com.epam.javatraining.dogapp.service.DogService;
@@ -24,8 +25,10 @@ public class DogController {
     private static final String DOG_ID = "{id}";
     private final DogService dogService;
 
+    @Log
     @GetMapping
-    Collection<Dog> get() {
+    Collection<Dog> get() throws InterruptedException {
+        Thread.sleep(2000);
         return dogService.getAll();
     }
 
