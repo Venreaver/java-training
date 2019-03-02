@@ -11,9 +11,8 @@ import java.util.Arrays;
 import static java.util.stream.Collectors.toList;
 
 @Aspect
-@Component
 public class LogAspect extends Logging {
-    @Around("@annotation(Log)")
+    @Around("within(@com.epam.javatraining.dogapp.aspect.Log *)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();

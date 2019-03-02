@@ -12,8 +12,8 @@ import static java.util.stream.Collectors.toList;
 abstract class Logging {
     private static final int MAX_TIME_BEFORE_LOG_ARGS = 2000;
     private static final int MAX_COLLECTION_SIZE_TO_LOG = 100;
-    private static final String LOG_MESSAGE_FORMAT = "%s execution time: %dms (Time range: %s)";
-    private static final String LOG_SLOW_MESSAGE_FORMAT = "%s slow execution time: %dms (Time range: %s), args %s";
+    private static final String LOG_MESSAGE_FORMAT = "%s execution time: %d ms (Time range: %s)";
+    private static final String LOG_SLOW_MESSAGE_FORMAT = "%s slow execution time: %d ms (Time range: %s), args %s";
 
     void logExecutionTime(String classAndMethod, StopWatch stopWatch, List<Object> queryArgs) {
         stopWatch.stop();

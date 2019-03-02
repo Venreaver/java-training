@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.Collection;
 
+@Log
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "dog")
@@ -25,10 +26,8 @@ public class DogController {
     private static final String DOG_ID = "{id}";
     private final DogService dogService;
 
-    @Log
     @GetMapping
-    Collection<Dog> get() throws InterruptedException {
-        Thread.sleep(2000);
+    Collection<Dog> get() {
         return dogService.getAll();
     }
 
