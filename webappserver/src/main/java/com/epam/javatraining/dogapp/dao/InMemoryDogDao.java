@@ -36,18 +36,12 @@ public class InMemoryDogDao implements DogDao {
     }
 
     public Dog get(String id) {
-        if (DOGS.containsKey(id)) {
-            return DOGS.get(id);
-        }
-        throw new DogNotFoundException(id);
+        return DOGS.get(id);
     }
 
     public Dog update(Dog dog) {
-        if (DOGS.containsKey(dog.getId())) {
-            DOGS.put(dog.getId(), dog);
-            return dog;
-        }
-        throw new DogNotFoundException(dog.getId());
+        Dog updatedDog = DOGS.put(dog.getId(), dog);
+        return updatedDog == null ? null : dog;
     }
 
     public int delete(String id) {

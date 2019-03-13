@@ -13,7 +13,9 @@ import java.util.Collection;
 
 import static com.epam.javatraining.model.DogValidationTest.generateDog;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertThrows;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
@@ -60,18 +62,18 @@ public class DogDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void getNotExistingDog_results_into_DogNotFoundException() {
-        assertThrows(DogNotFoundException.class, () -> dogDao.get(generateDog().getId()));
+    public void getNotExistingDog_results_into_Null() {
+        assertNull(dogDao.get(generateDog().getId()));
     }
 
     @Test
-    public void updateNotExistingDog_results_into_DogNotFoundException() {
-        assertThrows(DogNotFoundException.class, () -> dogDao.update(generateDog()));
+    public void updateNotExistingDog_results_into_Null() {
+        assertNull(dogDao.update(generateDog()));
     }
 
     @Test
-    public void deleteNotExistingDog_results_into_DogNotFoundException() {
-        assertThrows(DogNotFoundException.class, () -> dogDao.delete(generateDog().getId()));
+    public void deleteNotExistingDog_results_into_Null() {
+        assertThat(dogDao.delete(generateDog().getId()), is(0));
     }
 
     @Test
