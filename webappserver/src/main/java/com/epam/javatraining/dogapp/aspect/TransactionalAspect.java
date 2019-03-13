@@ -1,14 +1,13 @@
 package com.epam.javatraining.dogapp.aspect;
 
 import com.epam.javatraining.dogapp.dao.JdbcConnectionHolder;
-import java.sql.Connection;
-import java.sql.SQLException;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 
-@Aspect
+import java.sql.Connection;
+import java.sql.SQLException;
+
 @AllArgsConstructor
 public class TransactionalAspect {
     private final JdbcConnectionHolder holder;

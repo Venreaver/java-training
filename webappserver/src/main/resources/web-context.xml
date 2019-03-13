@@ -37,10 +37,21 @@
             <!--<bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>-->
         <!--</constructor-arg>-->
     <!--</bean>-->
-    <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>
-    <bean class="com.epam.javatraining.dogapp.aspect.LogAspect"/>
-    <bean class="com.epam.javatraining.dogapp.aspect.TransactionalAspect"/>
     <bean class="com.epam.javatraining.dogapp.controller.DogController"/>
+    <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>
+    <bean id="logAspect" class="com.epam.javatraining.dogapp.aspect.LogAspect"/>
+    <bean id="transactionalAspect" class="com.epam.javatraining.dogapp.aspect.TransactionalAspect"/>
+
+    <aop:config>
+        <aop:aspect id="log" ref="logAspect">
+            <aop:around pointcut="execution(* com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao.*(..))"
+                        method = "log"/>
+        </aop:aspect>
+        <aop:aspect id="transactional" ref="transactionalAspect">
+            <aop:around pointcut="execution(* com.epam.javatraining.dogapp.service.DogServiceImpl.*(..))"
+                        method = "transactionalMethodInvoke"/>
+        </aop:aspect>
+    </aop:config>
 
     <beans profile="default">
         <jdbc:embedded-database id="dataSource" type="H2" database-name="myDB"/>
