@@ -1,7 +1,8 @@
 package com.epam.javatraining.dogapp.dao;
 
-import com.epam.javatraining.dogapp.aspect.Log;
 import com.epam.javatraining.dogapp.model.Dog;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,8 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
-import javax.sql.DataSource;
-
 
 import static com.epam.javatraining.dogapp.constants.SqlStatements.CREATE_DOG_PREP;
 import static com.epam.javatraining.dogapp.constants.SqlStatements.DELETE_DOG_PREP;
@@ -28,7 +27,6 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
         super(dataSource);
     }
 
-    @Log
     @Override
     public Dog create(Dog dog) {
         dog.setId(UUID.randomUUID().toString());
@@ -47,14 +45,12 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
         return dog;
     }
 
-    @Log
     @Override
     public Collection<Dog> getAll() {
         return executeQuery(GET_ALL_DOGS, preparedStatement -> {
         });
     }
 
-    @Log
     @Override
     public Dog get(String id) {
         List<Dog> result = executeQuery(GET_DOG_PREP, statement -> {
@@ -67,7 +63,6 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
         return result.isEmpty() ? null : result.get(0);
     }
 
-    @Log
     @Override
     public Dog update(Dog dog) {
         int rowCount = executeUpdate(UPDATE_DOG_PREP,
@@ -86,7 +81,6 @@ public class JdbcPreparedStatementDogDao extends JdbcDogDao {
         return rowCount < 1 ? null : dog;
     }
 
-    @Log
     @Override
     public int delete(String id) {
         return executeUpdate(DELETE_DOG_PREP, statement -> {

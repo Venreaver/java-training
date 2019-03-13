@@ -1,5 +1,6 @@
 package com.epam.javatraining.dogapp.controller;
 
+import com.epam.javatraining.dogapp.aspect.Log;
 import com.epam.javatraining.dogapp.exception.DogNotFoundException;
 import com.epam.javatraining.dogapp.model.Dog;
 import com.epam.javatraining.dogapp.service.DogService;
@@ -29,6 +30,7 @@ public class DogController {
         return dogService.getAll();
     }
 
+    @Log
     @GetMapping(path = DOG_ID)
     Dog get(@PathVariable String id) {
         Dog dog = dogService.get(id);

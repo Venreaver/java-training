@@ -43,7 +43,7 @@
     <bean id="transactionalAspect" class="com.epam.javatraining.dogapp.aspect.TransactionalAspect"/>
 
     <aop:config>
-        <aop:aspect id="log" ref="logAspect">
+        <aop:aspect id="logging" ref="logAspect">
             <aop:around pointcut="execution(* com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao.*(..))"
                         method = "log"/>
         </aop:aspect>
