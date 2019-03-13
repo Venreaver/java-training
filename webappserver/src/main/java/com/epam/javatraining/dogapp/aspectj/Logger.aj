@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public aspect Logger {
-    pointcut callAtControllerMethods():within(com.epam.javatraining.dogapp.aspect.Log);
+    pointcut callAtControllerMethods():within(Log);
 
     before(): callAtControllerMethods() {
         log.info("Before - '{}'", thisJoinPoint.toShortString());

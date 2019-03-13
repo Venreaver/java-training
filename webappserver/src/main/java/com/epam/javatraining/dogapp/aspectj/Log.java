@@ -1,4 +1,4 @@
-package com.epam.javatraining.dogapp.aspect;
+package com.epam.javatraining.dogapp.aspectj;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

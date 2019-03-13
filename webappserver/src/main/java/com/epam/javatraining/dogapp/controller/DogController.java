@@ -1,6 +1,6 @@
 package com.epam.javatraining.dogapp.controller;
 
-import com.epam.javatraining.dogapp.aspect.Log;
+import com.epam.javatraining.dogapp.aspectj.Log;
 import com.epam.javatraining.dogapp.exception.DogNotFoundException;
 import com.epam.javatraining.dogapp.model.Dog;
 import com.epam.javatraining.dogapp.service.DogService;

@@ -3,7 +3,6 @@ package com.epam.javatraining.dogapp.aspect;
 import com.epam.javatraining.dogapp.dao.JdbcConnectionHolder;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import java.sql.SQLException;
 public class TransactionalAspect {
     private final JdbcConnectionHolder holder;
 
-    @Around("@annotation(com.epam.javatraining.dogapp.aspect.Transactional)")
     public Object transactionalMethodInvoke(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             Connection connection = holder.getConnection();
