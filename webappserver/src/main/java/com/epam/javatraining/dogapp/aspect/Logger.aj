@@ -4,14 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public aspect Logger {
-    pointcut callAtServiceMethods():
-            execution(* com.epam.javatraining.dogapp.controller.DogServiceImpl.*(..));
+    pointcut callAtControllerMethods():
+            execution(* com.epam.javatraining.dogapp.controller.DogController.*(..));
 
-    before(): callAtServiceMethods() {
+    before(): callAtControllerMethods() {
         log.info("Before - '{}'", thisJoinPoint.toShortString());
     }
 
-    after(): callAtServiceMethods() {
+    after(): callAtControllerMethods() {
         log.info("After - '{}'", thisJoinPoint.toShortString());
     }
 }

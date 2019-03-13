@@ -1,6 +1,5 @@
 package com.epam.javatraining.dogapp.controller;
 
-import com.epam.javatraining.dogapp.aspect.Log;
 import com.epam.javatraining.dogapp.exception.DogNotFoundException;
 import com.epam.javatraining.dogapp.model.Dog;
 import com.epam.javatraining.dogapp.service.DogService;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.Collection;
 
-@Log
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "dog")
