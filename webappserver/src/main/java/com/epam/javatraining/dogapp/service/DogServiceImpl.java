@@ -4,9 +4,11 @@ import com.epam.javatraining.dogapp.dao.DogDao;
 import com.epam.javatraining.dogapp.model.Dog;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
+@Transactional
 @NoArgsConstructor
 @AllArgsConstructor
 public class DogServiceImpl implements DogService {

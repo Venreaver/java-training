@@ -40,7 +40,7 @@
     <bean class="com.epam.javatraining.dogapp.controller.DogController"/>
     <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>
     <bean id="logAspect" class="com.epam.javatraining.dogapp.aspect.LogAspect"/>
-    <bean id="transactionalAspect" class="com.epam.javatraining.dogapp.aspect.TransactionalAspect"/>
+<!--    <bean id="transactionalAspect" class="com.epam.javatraining.dogapp.aspect.TransactionalAspect"/>-->
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"/>
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"/>
     <bean class="com.epam.javatraining.dogapp.dao.JdbcTemplateDogDao"/>
@@ -50,10 +50,10 @@
             <aop:around pointcut="execution(* com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao.*(..))"
                         method = "log"/>
         </aop:aspect>
-        <aop:aspect id="transactional" ref="transactionalAspect">
-            <aop:around pointcut="execution(* com.epam.javatraining.dogapp.service.DogServiceImpl.*(..))"
-                        method = "transactionalMethodInvoke"/>
-        </aop:aspect>
+<!--        <aop:aspect id="transactional" ref="transactionalAspect">-->
+<!--            <aop:around pointcut="execution(* com.epam.javatraining.dogapp.service.DogServiceImpl.*(..))"-->
+<!--                        method = "transactionalMethodInvoke"/>-->
+<!--        </aop:aspect>-->
     </aop:config>
 
     <beans profile="default">
