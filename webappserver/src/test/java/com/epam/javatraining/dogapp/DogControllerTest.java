@@ -21,7 +21,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
-@ActiveProfiles({"postgres", "prep"})
+@ActiveProfiles({"postgres"})
 public class DogControllerTest {
     @BeforeClass
     public static void setUp() {

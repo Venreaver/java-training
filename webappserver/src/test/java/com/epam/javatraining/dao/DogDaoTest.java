@@ -4,7 +4,10 @@ import com.epam.javatraining.dogapp.dao.DogDao;
 import com.epam.javatraining.dogapp.exception.DogNotFoundException;
 import com.epam.javatraining.dogapp.model.Dog;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.number.OrderingComparison;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
@@ -19,6 +22,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertThrows;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
+@ActiveProfiles({"postgres"})
 @ContextConfiguration("classpath:web-context.xml")
 public class DogDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
@@ -109,5 +113,13 @@ public class DogDaoTest extends AbstractTestNGSpringContextTests {
 
     private Dog createDog(Dog dog) {
         return dogDao.create(dog);
+    }
+
+    @Test
+    public void sqlInjection_has_no_effects() {
+        Dog createdDog = dogDao.create(generateDog());
+        createdDog.setName("'; TRUNCATE TABLE dog; --");
+        dogDao.update(createdDog);
+        MatcherAssert.assertThat(dogDao.getAll().size(), OrderingComparison.greaterThanOrEqualTo(5));
     }
 }

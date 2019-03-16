@@ -41,6 +41,9 @@
     <bean class="com.epam.javatraining.dogapp.service.DogServiceImpl"/>
     <bean id="logAspect" class="com.epam.javatraining.dogapp.aspect.LogAspect"/>
     <bean id="transactionalAspect" class="com.epam.javatraining.dogapp.aspect.TransactionalAspect"/>
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"/>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"/>
+    <bean class="com.epam.javatraining.dogapp.dao.JdbcTemplateDogDao"/>
 
     <aop:config>
         <aop:aspect id="logging" ref="logAspect">
@@ -70,21 +73,21 @@
         <bean class="org.flywaydb.core.Flyway" init-method="migrate">
             <constructor-arg ref="h2flywayConfig"/>
         </bean>
-        <bean class="com.epam.javatraining.dogapp.dao.JdbcConnectionHolder">
-            <constructor-arg ref="h2DataSource"/>
-        </bean>
-        <!--run with "-Dspring.profiles.active=h2, st"-->
-        <beans profile="st">
-            <bean class="com.epam.javatraining.dogapp.dao.JdbcStatementDogDao">
-                <constructor-arg ref="h2DataSource"/>
-            </bean>
-        </beans>
-        <!--run with "-Dspring.profiles.active=h2, prep"-->
-        <beans profile="prep">
-            <bean class="com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao">
-                <constructor-arg ref="h2DataSource"/>
-            </bean>
-        </beans>
+<!--        <bean class="com.epam.javatraining.dogapp.dao.JdbcConnectionHolder">-->
+<!--            <constructor-arg ref="h2DataSource"/>-->
+<!--        </bean>-->
+<!--        &lt;!&ndash;run with "-Dspring.profiles.active=h2, st"&ndash;&gt;-->
+<!--        <beans profile="st">-->
+<!--            <bean class="com.epam.javatraining.dogapp.dao.JdbcStatementDogDao">-->
+<!--                <constructor-arg ref="h2DataSource"/>-->
+<!--            </bean>-->
+<!--        </beans>-->
+<!--        &lt;!&ndash;run with "-Dspring.profiles.active=h2, prep"&ndash;&gt;-->
+<!--        <beans profile="prep">-->
+<!--            <bean class="com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao">-->
+<!--                <constructor-arg ref="h2DataSource"/>-->
+<!--            </bean>-->
+<!--        </beans>-->
     </beans>
 
     <!--run with "-Dspring.profiles.active=postgres"-->
@@ -99,15 +102,15 @@
         <bean id="postgresflywayConfig" class="org.flywaydb.core.api.configuration.ClassicConfiguration">
             <property name="dataSource" ref="postgresDataSource"/>
         </bean>
-        <bean class="com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao">
-            <constructor-arg ref="postgresDataSource"/>
-        </bean>
         <bean class="org.flywaydb.core.Flyway" init-method="migrate">
             <constructor-arg ref="postgresflywayConfig"/>
         </bean>
-        <bean class="com.epam.javatraining.dogapp.dao.JdbcConnectionHolder">
-            <constructor-arg ref="postgresDataSource"/>
-        </bean>
+<!--        <bean class="com.epam.javatraining.dogapp.dao.JdbcPreparedStatementDogDao">-->
+<!--            <constructor-arg ref="postgresDataSource"/>-->
+<!--        </bean>-->
+<!--        <bean class="com.epam.javatraining.dogapp.dao.JdbcConnectionHolder">-->
+<!--            <constructor-arg ref="postgresDataSource"/>-->
+<!--        </bean>-->
     </beans>
 
 </beans>

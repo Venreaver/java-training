@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 @WebAppConfiguration
-@ActiveProfiles({"postgres", "prep"})
+@ActiveProfiles({"postgres"})
 @ContextConfiguration("classpath:web-context.xml")
 public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     private MockMvc mockMvc;

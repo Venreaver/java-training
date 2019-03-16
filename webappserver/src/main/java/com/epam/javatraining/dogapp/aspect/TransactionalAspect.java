@@ -1,33 +1,32 @@
 package com.epam.javatraining.dogapp.aspect;
 
-import com.epam.javatraining.dogapp.dao.JdbcConnectionHolder;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import static org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRED;
 
+@Slf4j
 @AllArgsConstructor
 public class TransactionalAspect {
-    private final JdbcConnectionHolder holder;
+    private final PlatformTransactionManager txManager;
 
     public Object transactionalMethodInvoke(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.info("Processing in transaction '{}'", joinPoint.toShortString());
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition(PROPAGATION_REQUIRED);
+        TransactionStatus status = txManager.getTransaction(definition);
+        Object result;
         try {
-            Connection connection = holder.getConnection();
-            connection.setAutoCommit(false);
-            try {
-                Object result = joinPoint.proceed();
-                connection.commit();
-                return result;
-            } catch (SQLException e) {
-                connection.rollback();
-                throw e;
-            }
-        } catch (SQLException e) {
+            result = joinPoint.proceed(joinPoint.getArgs());
+        } catch (Exception e) {
+            txManager.rollback(status);
             throw new RuntimeException(e);
-        } finally {
-            holder.closeConnection();
         }
+        txManager.commit(status);
+        return result;
     }
 }
 
