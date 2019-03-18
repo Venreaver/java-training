@@ -30,6 +30,7 @@ public class JdbcDogService implements DogService {
     }
 
     // doesn't have to be @Transactional since doSaveDogs() is transactional anyway
+    @Transactional
     @Override public void createNewDogsAndIgnoreAlreadySaved(List<Dog> dogs) {
         List<Dog> toSave = new ArrayList<>();
         for (Dog dog : dogs) if(dog.getId() == null) toSave.add(dog);
