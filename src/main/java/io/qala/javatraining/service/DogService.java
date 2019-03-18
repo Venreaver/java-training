@@ -11,19 +11,19 @@ public class DogService {
         this.dogDao = dogDao;
     }
 
-    @Transactional public final Collection<Dog> getAllDogs() {
+    @Transactional public Collection<Dog> getAllDogs() {
         return dogDao.getAllDogs();
     }
 
-    @Transactional public final Dog getDog(String id) {
+    @Transactional public Dog getDog(String id) {
         return dogDao.getDog(id);
     }
 
-    @Transactional public final Dog createDog(Dog dog) {
+    @Transactional public Dog createDog(Dog dog) {
         return dogDao.createDog(dog);
     }
 
-    @Transactional public final boolean deleteDog(String id) {
+    @Transactional public boolean deleteDog(String id) {
         return dogDao.deleteDog(id);
     }
 
