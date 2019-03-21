@@ -158,6 +158,14 @@
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectj.version}</version>
         </dependency>
+
+        <!-- c3p0-->
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5.3</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -171,7 +179,6 @@
                 </configuration>
             </plugin>
 
-            <!--DOES NOT WORK!-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>

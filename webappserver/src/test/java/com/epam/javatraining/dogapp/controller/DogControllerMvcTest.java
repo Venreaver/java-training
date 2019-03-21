@@ -1,11 +1,10 @@
-package com.epam.javatraining.dogapp;
+package com.epam.javatraining.dogapp.controller;
 
 import com.epam.javatraining.dogapp.model.Dog;
 import com.epam.javatraining.dogapp.model.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -19,7 +18,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import static com.epam.javatraining.model.DogValidationTest.generateDog;
+import static com.epam.javatraining.dogapp.model.DogValidationTest.generateDog;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -34,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 @WebAppConfiguration
-@ActiveProfiles({"postgres"})
 @ContextConfiguration("classpath:web-context.xml")
 public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     private MockMvc mockMvc;

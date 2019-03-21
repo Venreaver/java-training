@@ -1,20 +1,17 @@
-package com.epam.javatraining.dao;
+package com.epam.javatraining.dogapp.dao;
 
-import com.epam.javatraining.dogapp.dao.DogDao;
-import com.epam.javatraining.dogapp.exception.DogNotFoundException;
 import com.epam.javatraining.dogapp.model.Dog;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.number.OrderingComparison;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 
 import java.util.Collection;
 
-import static com.epam.javatraining.model.DogValidationTest.generateDog;
+import static com.epam.javatraining.dogapp.model.DogValidationTest.generateDog;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -22,7 +19,6 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertThrows;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
-@ActiveProfiles({"postgres"})
 @ContextConfiguration("classpath:web-context.xml")
 public class DogDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
@@ -121,5 +117,27 @@ public class DogDaoTest extends AbstractTestNGSpringContextTests {
         createdDog.setName("'; TRUNCATE TABLE dog; --");
         dogDao.update(createdDog);
         MatcherAssert.assertThat(dogDao.getAll().size(), OrderingComparison.greaterThanOrEqualTo(5));
+    }
+
+    @Test
+    public void createInvalidDog_results_into_RuntimeException() {
+        Dog generatedDog = generateDog();
+        generatedDog.setName(RandomStringUtils.randomAlphabetic(101));
+        assertThrows(RuntimeException.class, () -> dogDao.create(generatedDog));
+        generatedDog.setName(null);
+        assertThrows(RuntimeException.class, () -> dogDao.create(generatedDog));
+        generatedDog.setName("q");
+        generatedDog.setHeight(null);
+        assertThrows(RuntimeException.class, () -> dogDao.create(generatedDog));
+        generatedDog.setHeight(32);
+        generatedDog.setWeight(null);
+        assertThrows(RuntimeException.class, () -> dogDao.create(generatedDog));
+    }
+
+    @Test
+    public void createDogWithNullName_results_into_RuntimeException() {
+        Dog generatedDog = generateDog();
+        generatedDog.setName(null);
+        assertThrows(RuntimeException.class, () -> dogDao.create(generatedDog));
     }
 }

@@ -1,15 +1,14 @@
-package com.epam.javatraining.dogapp;
+package com.epam.javatraining.dogapp.controller;
 
 import com.epam.javatraining.dogapp.model.Dog;
 import com.epam.javatraining.dogapp.model.ErrorResponse;
 import com.jayway.restassured.RestAssured;
-import org.springframework.test.context.ActiveProfiles;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
 
-import static com.epam.javatraining.model.DogValidationTest.generateDog;
+import static com.epam.javatraining.dogapp.model.DogValidationTest.generateDog;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,7 +20,6 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
-@ActiveProfiles({"postgres"})
 public class DogControllerTest {
     @BeforeClass
     public static void setUp() {
