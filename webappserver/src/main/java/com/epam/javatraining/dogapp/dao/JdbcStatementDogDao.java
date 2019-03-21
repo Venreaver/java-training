@@ -1,6 +1,7 @@
 package com.epam.javatraining.dogapp.dao;
 
 import com.epam.javatraining.dogapp.model.Dog;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -57,8 +58,8 @@ public class JdbcStatementDogDao extends JdbcDogDao {
     }
 
     private List<Dog> executeQuery(String sqlQuery) {
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sqlQuery)) {
             List<Dog> result = new ArrayList<>();
             while (resultSet.next()) {
@@ -71,8 +72,8 @@ public class JdbcStatementDogDao extends JdbcDogDao {
     }
 
     private int executeUpdate(String sqlQuery) {
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()) {
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (Statement statement = connection.createStatement()) {
             return statement.executeUpdate(sqlQuery);
         } catch (SQLException e) {
             throw new RuntimeException(e);
