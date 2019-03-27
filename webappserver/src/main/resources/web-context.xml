@@ -15,7 +15,7 @@
        default-autowire="constructor">
 
     <!--PROPERTIES-->
-    <context:property-placeholder location="classpath:datasourse.properties"/>
+    <context:property-placeholder location="classpath:datasource.properties"/>
 
     <!--DATASOURCE BEAN-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
