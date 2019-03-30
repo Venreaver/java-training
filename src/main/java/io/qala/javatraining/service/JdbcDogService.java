@@ -36,7 +36,7 @@ public class JdbcDogService implements DogService {
         for (Dog dog : dogs) if(dog.getId() == null) toSave.add(dog);
         doSaveDogs(toSave);
     }
-    @Transactional
+
     private void doSaveDogs(List<Dog> dogs) {
         for(Dog dog: dogs) createDog(dog);
     }
