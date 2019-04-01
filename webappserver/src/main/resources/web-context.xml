@@ -4,6 +4,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/mvc
@@ -11,23 +12,16 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd"
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee.xsd"
        default-autowire="constructor">
 
     <!--PROPERTIES-->
     <context:property-placeholder location="classpath:datasource.properties"/>
 
     <!--DATASOURCE BEAN-->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="${driverClassName}"/>
-        <property name="jdbcUrl" value="${url}"/>
-        <property name="user" value="${user}"/>
-        <property name="password" value="${password}"/>
-        <property name="minPoolSize" value="2"/>
-        <property name="maxPoolSize" value="15"/>
-        <property name="maxStatements" value="60"/>
-        <property name="maxStatementsPerConnection" value="4"/>
-    </bean>
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/mydb" expected-type="javax.sql.DataSource"/>
 
     <!--APPLICATION BEANS-->
     <bean class="com.epam.javatraining.dogapp.controller.ExceptionHandlerController"/>

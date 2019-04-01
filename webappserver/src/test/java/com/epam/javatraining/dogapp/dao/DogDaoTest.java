@@ -19,7 +19,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertThrows;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
-@ContextConfiguration("classpath:web-context.xml")
+@ContextConfiguration("classpath:test-context.xml")
 public class DogDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
     DogDao dogDao;

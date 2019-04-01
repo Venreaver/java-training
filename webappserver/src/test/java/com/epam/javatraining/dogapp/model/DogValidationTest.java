@@ -2,6 +2,7 @@ package com.epam.javatraining.dogapp.model;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -16,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
-@ActiveProfiles({"postgres", "prep"})
+@ContextConfiguration("classpath:test-context.xml")
 public class DogValidationTest {
     private static Validator validator;
 
