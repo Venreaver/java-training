@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.epam.javatraining.dogapp.model" default-access="field">
+
+    <class name="Dog" table="dog">
+        <id name="id" column="id"/>
+        <property name="name" not-null="true" column="name"/>
+        <property name="dateOfBirth" not-null="false" column="birth_date"/>
+        <property name="height" not-null="true" column="height"/>
+        <property name="weight" not-null="true" column="weight"/>
+    </class>
+</hibernate-mapping>

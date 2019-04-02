@@ -1,7 +1,6 @@
 package com.epam.javatraining.dogapp.model;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
