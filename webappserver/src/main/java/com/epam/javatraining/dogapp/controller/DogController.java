@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -32,7 +33,7 @@ public class DogController {
 
     @Log
     @GetMapping(path = DOG_ID)
-    Dog get(@PathVariable String id) {
+    Dog get(@PathVariable UUID id) {
         Dog dog = dogService.get(id);
         if (dog == null) {
             throw new DogNotFoundException(id);
@@ -46,7 +47,7 @@ public class DogController {
     }
 
     @PutMapping(path = DOG_ID)
-    Dog update(@Valid @RequestBody Dog dog, @PathVariable String id) {
+    Dog update(@Valid @RequestBody Dog dog, @PathVariable UUID id) {
         dog.setId(id);
         Dog updatedDog = dogService.update(dog);
         if (updatedDog == null) {
@@ -56,7 +57,7 @@ public class DogController {
     }
 
     @DeleteMapping(path = DOG_ID)
-    ResponseEntity delete(@PathVariable String id) {
+    ResponseEntity delete(@PathVariable UUID id) {
         int rowCount = dogService.delete(id);
         if (rowCount < 1) {
             throw new DogNotFoundException(id);

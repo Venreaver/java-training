@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 @WebAppConfiguration
-@ContextConfiguration("classpath:test-context.xml")
+@ContextConfiguration("classpath:web-context.xml")
 public class DogControllerMvcTest extends AbstractTestNGSpringContextTests {
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;

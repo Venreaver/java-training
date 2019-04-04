@@ -21,12 +21,13 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
-@ContextConfiguration("classpath:test-context.xml")
+@ContextConfiguration("classpath:web-context.xml")
 public class DogControllerTest {
     @BeforeClass
     public static void setUp() {
         RestAssured.baseURI = "http://localhost:8080/dog/";
     }
+    private static final String ID = "{id}";
 
     @Test
     public void getList_results_into_dogCollection() {
@@ -38,7 +39,7 @@ public class DogControllerTest {
     public void getDog_results_into_appropriateDog() {
         Dog postedDog = postDog(generateDog());
         Dog dog = given().accept(JSON).contentType(JSON)
-                         .when().get(postedDog.getId())
+                         .when().get(ID, postedDog.getId())
                          .then().statusCode(OK.value()).contentType(JSON).extract().body().as(Dog.class);
         assertReflectionEquals(postedDog, dog);
     }
@@ -56,7 +57,7 @@ public class DogControllerTest {
         Dog postedDog = postDog(generateDog());
         Dog generatedDog = generateDog();
         Dog dog = given().body(generatedDog).accept(JSON).contentType(JSON)
-                         .when().put(postedDog.getId())
+                         .when().put(ID, postedDog.getId())
                          .then().statusCode(OK.value()).extract().body().as(Dog.class);
         generatedDog.setId(postedDog.getId());
         assertReflectionEquals(generatedDog, dog);
@@ -65,14 +66,14 @@ public class DogControllerTest {
     @Test
     public void deleteDog_results_into_httpStatusIs204() {
         Dog postedDog = postDog(generateDog());
-        given().accept(JSON).contentType(JSON).when().delete(postedDog.getId()).then().statusCode(NO_CONTENT.value());
+        given().accept(JSON).contentType(JSON).when().delete(ID, postedDog.getId()).then().statusCode(NO_CONTENT.value());
     }
 
     @Test
     public void getNotExistingDog_results_into_httpStatusIs404() {
         Dog generatedDog = generateDog();
         ErrorResponse response = given().accept(JSON).contentType(JSON)
-                                        .when().get(generatedDog.getId())
+                                        .when().get(ID, generatedDog.getId())
                                         .then().statusCode(NOT_FOUND.value()).contentType(JSON)
                                         .extract().body().as(ErrorResponse.class);
         assertThat(response.getInfo(), equalTo(String.format("Dog with id %s does not exist", generatedDog.getId())));
@@ -82,7 +83,7 @@ public class DogControllerTest {
     public void updateNotExistingDog_results_into_httpStatusIs404() {
         Dog generatedDog = generateDog();
         ErrorResponse response = given().body(generatedDog).accept(JSON).contentType(JSON)
-                                        .when().put(generatedDog.getId())
+                                        .when().put(ID, generatedDog.getId())
                                         .then().statusCode(NOT_FOUND.value()).extract().body().as(ErrorResponse.class);
         assertThat(response.getInfo(), equalTo(String.format("Dog with id %s does not exist", generatedDog.getId())));
     }
@@ -91,7 +92,7 @@ public class DogControllerTest {
     public void deleteNotExistingDog_results_into_httpStatusIs404() {
         Dog generatedDog = generateDog();
         ErrorResponse response = given().accept(JSON).contentType(JSON)
-                                        .when().delete(generatedDog.getId())
+                                        .when().delete(ID, generatedDog.getId())
                                         .then().statusCode(NOT_FOUND.value())
                                         .extract().body().as(ErrorResponse.class);
         assertThat(response.getInfo(), equalTo(String.format("Dog with id %s does not exist", generatedDog.getId())));
@@ -111,7 +112,7 @@ public class DogControllerTest {
         Dog generatedDog = generateDog();
         generatedDog.setDateOfBirth(LocalDate.now());
         given().body(generatedDog).accept(JSON).contentType(JSON)
-               .when().put(generatedDog.getId())
+               .when().put(ID, generatedDog.getId())
                .then().statusCode(BAD_REQUEST.value()).extract().body().as(ErrorResponse.class);
     }
 

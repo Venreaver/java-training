@@ -13,7 +13,6 @@ public class HibernateDogDao implements DogDao {
 
     @Override
     public Dog create(Dog dog) {
-        dog.setId(UUID.randomUUID().toString());
         sessionFactory.getCurrentSession().save(dog);
         return dog;
     }
@@ -24,7 +23,7 @@ public class HibernateDogDao implements DogDao {
     }
 
     @Override
-    public Dog get(String id) {
+    public Dog get(UUID id) {
         return sessionFactory.getCurrentSession().get(Dog.class, id);
     }
 
@@ -33,12 +32,13 @@ public class HibernateDogDao implements DogDao {
         if (get(dog.getId()) == null) {
             return null;
         }
-        sessionFactory.getCurrentSession().saveOrUpdate(dog);
+        sessionFactory.getCurrentSession().clear();
+        sessionFactory.getCurrentSession().update(dog);
         return dog;
     }
 
     @Override
-    public int delete(String id) {
+    public int delete(UUID id) {
         Dog dog = get(id);
         if (dog != null) {
             sessionFactory.getCurrentSession().delete(dog);

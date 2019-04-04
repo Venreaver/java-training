@@ -11,6 +11,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -18,7 +19,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Dog {
-    private String id;
+    private UUID id;
     @NotNull
     @Size(min = 1, max = 100)
     private String name;

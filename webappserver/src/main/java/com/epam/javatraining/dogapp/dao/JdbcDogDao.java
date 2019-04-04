@@ -23,7 +23,7 @@ public class JdbcDogDao implements DogDao {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Dog> dogRowMapper = (rs, rowNum) ->
             Dog.builder()
-               .id(rs.getString("id"))
+               .id(rs.getObject("id", UUID.class))
                .name(rs.getString("name"))
                .dateOfBirth(rs.getObject("birth_date", LocalDate.class))
                .height(rs.getInt("height"))
@@ -32,9 +32,9 @@ public class JdbcDogDao implements DogDao {
 
     @Override
     public Dog create(Dog dog) {
-        dog.setId(UUID.randomUUID().toString());
+        dog.setId(UUID.randomUUID());
         jdbcTemplate.update(CREATE_DOG_PREP, st -> {
-            st.setString(1, dog.getId());
+            st.setObject(1, dog.getId());
             st.setString(2, dog.getName());
             st.setDate(3, getNullableDate(dog.getDateOfBirth()));
             st.setInt(4, dog.getHeight());
@@ -49,7 +49,7 @@ public class JdbcDogDao implements DogDao {
     }
 
     @Override
-    public Dog get(String id) {
+    public Dog get(UUID id) {
         List<Dog> result = jdbcTemplate.query(GET_DOG_PREP, st -> st.setObject(1, id), dogRowMapper);
         return result.isEmpty() ? null : result.get(0);
     }
@@ -61,13 +61,13 @@ public class JdbcDogDao implements DogDao {
             st.setDate(2, getNullableDate(dog.getDateOfBirth()));
             st.setInt(3, dog.getHeight());
             st.setInt(4, dog.getWeight());
-            st.setString(5, dog.getId());
+            st.setObject(5, dog.getId());
         });
         return rowCount < 1 ? null : dog;
     }
 
     @Override
-    public int delete(String id) {
+    public int delete(UUID id) {
         return jdbcTemplate.update(DELETE_DOG_PREP, st -> st.setObject(1, id));
     }
 

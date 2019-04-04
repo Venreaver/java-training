@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.UUID;
 
 @Transactional
 @NoArgsConstructor
@@ -18,7 +19,7 @@ public class DogServiceImpl implements DogService {
         return dogDao.getAll();
     }
 
-    public Dog get(String id) {
+    public Dog get(UUID id) {
         return dogDao.get(id);
     }
 
@@ -30,7 +31,7 @@ public class DogServiceImpl implements DogService {
         return dogDao.update(dog);
     }
 
-    public int delete(String id) {
+    public int delete(UUID id) {
         return dogDao.delete(id);
     }
 }

@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
-@ContextConfiguration("classpath:test-context.xml")
+@ContextConfiguration("classpath:web-context.xml")
 public class DogValidationTest {
     private static Validator validator;
 
@@ -26,7 +26,7 @@ public class DogValidationTest {
     }
 
     public static Dog generateDog() {
-        return new Dog(UUID.randomUUID().toString(), "MyDog", LocalDate.of(2018, 2, 15), 45, 20);
+        return new Dog(UUID.randomUUID(), "MyDog", LocalDate.of(2018, 2, 15), 45, 20);
     }
 
     @Test
