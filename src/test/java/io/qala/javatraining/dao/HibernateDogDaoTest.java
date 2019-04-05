@@ -18,6 +18,7 @@ public class HibernateDogDaoTest extends AbstractTransactionalTestNGSpringContex
         Dog original = Dog.random();
         original.setName(english(101)/*fails a validation rule*/);
         dao.createDog(original);
+        dao.flushAndClear();
     }
 
     @Autowired private HibernateDogDao dao;
