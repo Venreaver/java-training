@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Human {
     private int id;
     private String name;
+    private String dogId;
 
     public int getId() {
         return id;
@@ -13,6 +14,14 @@ public class Human {
     public Human setId(int id) {
         this.id = id;
         return this;
+    }
+
+    public String getDogId() {
+        return dogId;
+    }
+
+    public void setDogId(String dogId) {
+        this.dogId = dogId;
     }
 
     public String getName() {

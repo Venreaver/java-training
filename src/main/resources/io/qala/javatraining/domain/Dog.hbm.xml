@@ -21,6 +21,7 @@
             <generator class="increment"/>
         </id>
         <property name="name" />
+        <property name="dogId" column="DOG_ID"/>
     </class>
     <query name="getAllDogs">from Dog</query>
 </hibernate-mapping>
