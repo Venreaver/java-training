@@ -39,7 +39,7 @@
     <bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"/>
     <bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="mappingResources" value="dog-mappings.xml"/>
+        <property name="mappingResources" value="dog.hbm.xml"/>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>

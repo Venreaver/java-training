@@ -9,6 +9,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class DogValidationTest {
     }
 
     public static Dog generateDog() {
-        return new Dog(UUID.randomUUID(), "MyDog", LocalDate.of(2018, 2, 15), 45, 20);
+        return new Dog(UUID.randomUUID(), "MyDog", LocalDate.of(2018, 2, 15), 45, 20, new HashSet<>());
     }
 
     @Test
