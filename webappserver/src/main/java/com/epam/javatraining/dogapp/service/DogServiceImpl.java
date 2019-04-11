@@ -16,10 +16,14 @@ public class DogServiceImpl implements DogService {
     private DogDao dogDao;
 
     public Collection<Dog> getAll() {
-        return dogDao.getAll();
+        Collection<Dog> allDogs = dogDao.getAll();
+        allDogs.forEach(dog -> dog.getOwners().size());
+        return allDogs;
     }
 
     public Dog get(UUID id) {
+        Dog dog = dogDao.get(id);
+        dog.getOwners().size();
         return dogDao.get(id);
     }
 
