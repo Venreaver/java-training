@@ -50,8 +50,8 @@ public class Dog {
         dog.weight = positiveDouble();
         dog.height = positiveInteger();
         dog.owners = new HashSet<>();
-        dog.owners.add(new Human().setId(1).setName(alphanumeric(1, 100)));
-        dog.owners.add(new Human().setId(2).setName(alphanumeric(1, 100)));
+        dog.owners.add(new Human().setName(alphanumeric(1, 100)));
+        dog.owners.add(new Human().setName(alphanumeric(1, 100)));
         return dog;
     }
 
